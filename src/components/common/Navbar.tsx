@@ -48,20 +48,20 @@ export const Navbar: React.FC = () => {
     <header
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
         scrolled
-          ? 'bg-[#0C0D10]/92 backdrop-blur-xl border-b border-white/10 py-3 shadow-lg shadow-black/50'
-          : 'bg-transparent py-4 sm:py-6'
+          ? 'bg-[#0C0D10]/92 backdrop-blur-xl border-b border-white/10 py-2.5 sm:py-3 shadow-lg shadow-black/50'
+          : 'bg-transparent py-3 sm:py-4'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           
-          {/* Official Metallic Emblem Logo */}
+          {/* Official Metallic Emblem Logo (Clean without subtitle) */}
           <a
             href="#home"
-            className="flex items-center gap-3.5 group"
+            className="flex items-center gap-3 group"
             onClick={(e) => handleLinkClick(e, '#home')}
           >
-            <div className="relative h-11 w-11 sm:h-12 sm:w-12 flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105">
+            <div className="relative h-10 w-10 sm:h-11 sm:w-11 flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105">
               <img
                 src="/logo-clean.png"
                 alt="SR Studio Emblem"
@@ -69,14 +69,9 @@ export const Navbar: React.FC = () => {
                 loading="eager"
               />
             </div>
-            <div className="flex flex-col">
-              <span className="font-display font-extrabold text-lg sm:text-xl tracking-tight text-[#F5F1EB] group-hover:text-white transition-colors leading-tight">
-                SR STUDIO
-              </span>
-              <span className="text-[10px] tracking-widest text-[#FFAD76] uppercase font-semibold">
-                Sharp Root Studio
-              </span>
-            </div>
+            <span className="font-display font-extrabold text-lg sm:text-xl tracking-tight text-[#F5F1EB] group-hover:text-white transition-colors leading-none">
+              SR STUDIO
+            </span>
           </a>
 
           {/* Desktop Navigation Links */}

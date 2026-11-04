@@ -89,23 +89,108 @@ h1, h2, h3, .font-display {
   box-shadow: 0 0 20px rgba(240, 120, 53, 0.15);
 }
 
-/* Subtle 3D Hero Breathing Animation (High Performance, Hardware Accelerated) */
-@keyframes hero-ambient-float {
+/* =========================================================================
+   CINEMATIC 3D HERO ANIMATION SYSTEM
+   Hardware accelerated (translate3d/scale/opacity only), 60fps, Zero reflow
+   ========================================================================= */
+
+/* 1. Slow, organic 3D Ribbon Undulation & Scale */
+@keyframes ribbon-cinematic-drift {
   0%, 100% {
-    transform: scale(1) translate3d(0, 0, 0);
+    transform: scale(1.02) translate3d(0, 0, 0) rotate(0deg);
   }
-  50% {
-    transform: scale(1.025) translate3d(-6px, -4px, 0);
+  33% {
+    transform: scale(1.045) translate3d(-10px, -6px, 0) rotate(0.35deg);
+  }
+  66% {
+    transform: scale(1.03) translate3d(8px, 6px, 0) rotate(-0.25deg);
   }
 }
 
-.animate-hero-float {
-  animation: hero-ambient-float 16s ease-in-out infinite;
+.animate-ribbon-drift {
+  animation: ribbon-cinematic-drift 20s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
   will-change: transform;
 }
 
+/* 2. Gentle Specular Orange Light Sweep Across the Metallic Ribbon */
+@keyframes ribbon-light-sweep {
+  0% {
+    transform: translate3d(-120%, -30%, 0) rotate(28deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.35;
+  }
+  80% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translate3d(180%, 45%, 0) rotate(28deg);
+    opacity: 0;
+  }
+}
+
+.animate-light-sweep {
+  animation: ribbon-light-sweep 14s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* 3. Pulsing Volumetric Orange Core Glow */
+@keyframes orange-glow-pulse {
+  0%, 100% {
+    opacity: 0.22;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.42;
+    transform: scale(1.18);
+  }
+}
+
+.animate-glow-pulse {
+  animation: orange-glow-pulse 9s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* 4. Subtle Floating 3D Spheres with Depth Parallax */
+@keyframes sphere-float-1 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-14px, -18px, 0) scale(1.04);
+  }
+}
+
+@keyframes sphere-float-2 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(12px, -14px, 0) scale(0.96);
+  }
+}
+
+.animate-sphere-1 {
+  animation: sphere-float-1 11s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-sphere-2 {
+  animation: sphere-float-2 15s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Respect user's reduced-motion preference */
 @media (prefers-reduced-motion: reduce) {
-  .animate-hero-float {
+  .animate-ribbon-drift,
+  .animate-light-sweep,
+  .animate-glow-pulse,
+  .animate-sphere-1,
+  .animate-sphere-2 {
     animation: none !important;
     transform: none !important;
   }
