@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Send, Mail, MapPin, Clock, CheckCircle2, AlertCircle, Copy, Check } from 'lucide-react';
+import { Send, Mail, MapPin, Clock, CheckCircle2, AlertCircle, Copy, Check, ExternalLink, Loader2 } from 'lucide-react';
 import { Badge } from '../common/Badge';
 import { Button } from '../common/Button';
 
@@ -13,8 +13,13 @@ export const ContactSection: React.FC = () => {
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [status, setStatus] = useState<'idle' | 'dispatched' | 'error'>('idle');
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'api_success' | 'mailto_opened' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
   const [copied, setCopied] = useState(false);
+
+  // Configurable external backend endpoint (e.g. Formspree, Web3Forms, or custom API route)
+  // Can be configured via .env variable VITE_CONTACT_FORM_ENDPOINT without hardcoding secrets
+  const formEndpoint = (import.meta.env.VITE_CONTACT_FORM_ENDPOINT as string | undefined)?.trim();
 
   const serviceOptions = [
     'Website Development',
@@ -38,40 +43,69 @@ export const ContactSection: React.FC = () => {
     return errs;
   };
 
-  const getMailtoUrl = () => {
-    const subject = encodeURIComponent(`[SR Studio Inquiry] ${formData.name} - ${formData.service}`);
+  const generateMailtoUrl = () => {
+    const subject = encodeURIComponent(`[SR Studio Inquiry] ${formData.name} — ${formData.service}`);
     const body = encodeURIComponent(
-      `Hello SR Studio,\n\n` +
-      `I would like to discuss a project with your team.\n\n` +
+      `Hello SR Studio Team,\n\n` +
+      `I would like to discuss a project with SR STUDIO.\n\n` +
       `• Name: ${formData.name}\n` +
       `• Email: ${formData.email}\n` +
       `• Company / Organization: ${formData.company || 'Not specified'}\n` +
       `• Service of Interest: ${formData.service}\n\n` +
       `• Project Details & Goals:\n${formData.details}\n\n` +
-      `Looking forward to hearing from you,\n${formData.name}`
+      `Looking forward to your response,\n${formData.name}`
     );
     return `mailto:sharprootstudio@gmail.com?subject=${subject}&body=${body}`;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleOpenMailClient = () => {
+    const mailto = generateMailtoUrl();
+    window.location.href = mailto;
+    setStatus('mailto_opened');
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
-      setStatus('idle');
       return;
     }
 
     setErrors({});
-    const mailto = getMailtoUrl();
 
-    // Trigger direct mailto dispatch to the official agency inbox
-    try {
-      window.location.href = mailto;
-      setStatus('dispatched');
-    } catch {
-      setStatus('error');
+    // If an external form endpoint is configured, submit via POST
+    if (formEndpoint) {
+      setStatus('submitting');
+      try {
+        const response = await fetch(formEndpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+          body: JSON.stringify({
+            ...formData,
+            _subject: `New Project Inquiry: ${formData.name} (${formData.service})`,
+            submittedAt: new Date().toISOString(),
+          }),
+        });
+
+        if (response.ok) {
+          setStatus('api_success');
+        } else {
+          const resData = await response.json().catch(() => ({}));
+          throw new Error(resData.message || 'Submission failed. Please send via email client.');
+        }
+      } catch (err) {
+        setErrorMessage(err instanceof Error ? err.message : 'Network error while contacting form endpoint.');
+        setStatus('error');
+      }
+      return;
     }
+
+    // Default: No backend configured -> Open mail client transparently
+    handleOpenMailClient();
   };
 
   const copyDetailsToClipboard = () => {
@@ -79,7 +113,7 @@ export const ContactSection: React.FC = () => {
       `SR Studio Project Inquiry\n` +
       `Name: ${formData.name}\n` +
       `Email: ${formData.email}\n` +
-      `Company: ${formData.company || 'N/A'}\n` +
+      `Company: ${formData.company || 'Not specified'}\n` +
       `Service: ${formData.service}\n` +
       `Details: ${formData.details}`;
     navigator.clipboard.writeText(text);
@@ -128,12 +162,12 @@ export const ContactSection: React.FC = () => {
                     sharprootstudio@gmail.com
                   </span>
                   <p className="text-xs text-[#A5A5A5] mt-1">
-                    Typically responds within 24 business hours
+                    Direct agency communication • Typically responds within 24 business hours
                   </p>
                 </div>
               </a>
 
-              {/* Operations & Availability */}
+              {/* Working Schedule */}
               <div className="flex items-start gap-4 p-5 rounded-2xl bg-[#17191C]/80 border border-white/10 shadow-md">
                 <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-[#FFAD76] flex-shrink-0">
                   <Clock size={22} />
@@ -146,7 +180,7 @@ export const ContactSection: React.FC = () => {
                     Monday – Friday, Remote / Global
                   </span>
                   <p className="text-xs text-[#A5A5A5] mt-1">
-                    Partnering with clients worldwide across multiple time zones
+                    Partnering with clients across multiple time zones
                   </p>
                 </div>
               </div>
@@ -171,24 +205,46 @@ export const ContactSection: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Column: Functional Project Inquiry Form */}
+          {/* Right Column: Project Inquiry Form */}
           <div className="lg:col-span-7">
             <div className="bg-[#17191C]/90 backdrop-blur-xl border border-white/10 rounded-3xl p-8 sm:p-10 shadow-2xl relative">
               
-              {status === 'dispatched' && (
+              {/* STATE 1: API SUCCESS (Only if a real endpoint was called and succeeded) */}
+              {status === 'api_success' && (
+                <div className="mb-8 p-6 rounded-2xl bg-green-500/15 border border-green-500/40 text-[#F5F1EB] animate-fadeIn">
+                  <div className="flex items-center gap-3 mb-2">
+                    <CheckCircle2 size={24} className="text-green-400 flex-shrink-0" />
+                    <h3 className="font-display font-bold text-lg text-white">
+                      Inquiry Received Successfully
+                    </h3>
+                  </div>
+                  <p className="text-sm text-[#A5A5A5] mb-2">
+                    Thank you, <strong className="text-white">{formData.name}</strong>. Your project details have been received by our studio.
+                  </p>
+                  <p className="text-xs text-[#A5A5A5]">
+                    We will review your inquiry and follow up at <strong className="text-[#FFAD76]">{formData.email}</strong> within 24 business hours.
+                  </p>
+                </div>
+              )}
+
+              {/* STATE 2: MAILTO OPENED (Transparent & Truthful distinction) */}
+              {status === 'mailto_opened' && (
                 <div className="mb-8 p-6 rounded-2xl bg-[#F07835]/15 border border-[#F07835]/40 text-[#F5F1EB] animate-fadeIn">
                   <div className="flex items-center gap-3 mb-2">
                     <CheckCircle2 size={24} className="text-[#F07835] flex-shrink-0" />
                     <h3 className="font-display font-bold text-lg text-white">
-                      Inquiry Dispatched to Email Client
+                      Email Application Launched
                     </h3>
                   </div>
-                  <p className="text-sm text-[#A5A5A5] mb-4">
-                    Your inquiry has been generated and opened in your email client to send directly to <strong className="text-white">sharprootstudio@gmail.com</strong>.
+                  <p className="text-sm text-[#A5A5A5] mb-3">
+                    Your inquiry has been formatted and opened in your email application. <strong className="text-white">Please remember to click "Send" in your email client</strong> to complete delivery to <strong className="text-[#FFAD76]">sharprootstudio@gmail.com</strong>.
+                  </p>
+                  <p className="text-xs text-[#A5A5A5]/80 mb-4">
+                    If your email client did not open automatically, you can re-open it or copy the inquiry text below:
                   </p>
                   <div className="flex flex-wrap items-center gap-3">
                     <a
-                      href={getMailtoUrl()}
+                      href={generateMailtoUrl()}
                       className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#F07835] text-white text-xs font-semibold hover:bg-[#ff843f] transition-colors shadow-md"
                     >
                       <Mail size={14} />
@@ -197,7 +253,7 @@ export const ContactSection: React.FC = () => {
                     <button
                       type="button"
                       onClick={copyDetailsToClipboard}
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#24272B] hover:bg-[#2e3237] text-white text-xs font-semibold border border-white/10 transition-colors"
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#24272B] hover:bg-[#2e3237] text-white text-xs font-semibold border border-white/10 transition-colors cursor-pointer"
                     >
                       {copied ? <Check size={14} className="text-green-400" /> : <Copy size={14} />}
                       {copied ? 'Copied to Clipboard' : 'Copy Inquiry Text'}
@@ -206,12 +262,32 @@ export const ContactSection: React.FC = () => {
                 </div>
               )}
 
+              {/* STATE 3: API ERROR (With instant mailto fallback) */}
               {status === 'error' && (
-                <div className="mb-8 p-4 rounded-xl bg-red-500/15 border border-red-500/30 flex items-center gap-3 text-red-200 text-sm">
-                  <AlertCircle size={20} className="text-red-400 flex-shrink-0" />
-                  <span>
-                    Unable to trigger mail client automatically. Please email us directly at <a href="mailto:sharprootstudio@gmail.com" className="underline font-bold text-white">sharprootstudio@gmail.com</a>.
-                  </span>
+                <div className="mb-8 p-6 rounded-2xl bg-red-500/15 border border-red-500/30 text-red-200 text-sm">
+                  <div className="flex items-center gap-3 mb-2">
+                    <AlertCircle size={22} className="text-red-400 flex-shrink-0" />
+                    <h4 className="font-bold text-white">Endpoint Transmission Failed</h4>
+                  </div>
+                  <p className="text-xs text-red-200/90 mb-4">
+                    {errorMessage || 'Unable to deliver message through the configured endpoint.'} You can dispatch directly via your email app below:
+                  </p>
+                  <div className="flex flex-wrap items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={handleOpenMailClient}
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#F07835] text-white text-xs font-semibold hover:bg-[#ff843f] transition-colors"
+                    >
+                      <Mail size={14} /> Send via Email Client
+                    </button>
+                    <button
+                      type="button"
+                      onClick={copyDetailsToClipboard}
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#24272B] text-white text-xs font-semibold border border-white/10"
+                    >
+                      {copied ? 'Copied' : 'Copy Inquiry'}
+                    </button>
+                  </div>
                 </div>
               )}
 
@@ -220,11 +296,12 @@ export const ContactSection: React.FC = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="name" className="block text-xs font-semibold uppercase tracking-wider text-[#A5A5A5] mb-2">
-                      Your Name <span className="text-[#F07835]">*</span>
+                      Your Name <span className="text-[#F07835]" aria-hidden="true">*</span>
                     </label>
                     <input
                       id="name"
                       type="text"
+                      required
                       value={formData.name}
                       onChange={(e) => {
                         setFormData({ ...formData, name: e.target.value });
@@ -232,12 +309,13 @@ export const ContactSection: React.FC = () => {
                       }}
                       placeholder="e.g. Alex Morgan"
                       aria-invalid={!!errors.name}
+                      aria-describedby={errors.name ? 'name-error' : undefined}
                       className={`w-full bg-[#24272B]/80 border ${
                         errors.name ? 'border-red-500' : 'border-white/10 focus:border-[#F07835]'
-                      } rounded-xl px-4 py-3 text-[#F5F1EB] placeholder-white/20 text-sm focus:outline-none transition-colors`}
+                      } rounded-xl px-4 py-3 text-[#F5F1EB] placeholder-white/20 text-sm focus:outline-none focus:ring-2 focus:ring-[#F07835]/50 transition-colors`}
                     />
                     {errors.name && (
-                      <p className="text-red-400 text-xs mt-1.5 flex items-center gap-1">
+                      <p id="name-error" className="text-red-400 text-xs mt-1.5 flex items-center gap-1">
                         <AlertCircle size={12} /> {errors.name}
                       </p>
                     )}
@@ -245,11 +323,12 @@ export const ContactSection: React.FC = () => {
 
                   <div>
                     <label htmlFor="email" className="block text-xs font-semibold uppercase tracking-wider text-[#A5A5A5] mb-2">
-                      Email Address <span className="text-[#F07835]">*</span>
+                      Email Address <span className="text-[#F07835]" aria-hidden="true">*</span>
                     </label>
                     <input
                       id="email"
                       type="email"
+                      required
                       value={formData.email}
                       onChange={(e) => {
                         setFormData({ ...formData, email: e.target.value });
@@ -257,12 +336,13 @@ export const ContactSection: React.FC = () => {
                       }}
                       placeholder="alex@company.com"
                       aria-invalid={!!errors.email}
+                      aria-describedby={errors.email ? 'email-error' : undefined}
                       className={`w-full bg-[#24272B]/80 border ${
                         errors.email ? 'border-red-500' : 'border-white/10 focus:border-[#F07835]'
-                      } rounded-xl px-4 py-3 text-[#F5F1EB] placeholder-white/20 text-sm focus:outline-none transition-colors`}
+                      } rounded-xl px-4 py-3 text-[#F5F1EB] placeholder-white/20 text-sm focus:outline-none focus:ring-2 focus:ring-[#F07835]/50 transition-colors`}
                     />
                     {errors.email && (
-                      <p className="text-red-400 text-xs mt-1.5 flex items-center gap-1">
+                      <p id="email-error" className="text-red-400 text-xs mt-1.5 flex items-center gap-1">
                         <AlertCircle size={12} /> {errors.email}
                       </p>
                     )}
@@ -280,7 +360,7 @@ export const ContactSection: React.FC = () => {
                     value={formData.company}
                     onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                     placeholder="e.g. Acme Innovations"
-                    className="w-full bg-[#24272B]/80 border border-white/10 focus:border-[#F07835] rounded-xl px-4 py-3 text-[#F5F1EB] placeholder-white/20 text-sm focus:outline-none transition-colors"
+                    className="w-full bg-[#24272B]/80 border border-white/10 focus:border-[#F07835] rounded-xl px-4 py-3 text-[#F5F1EB] placeholder-white/20 text-sm focus:outline-none focus:ring-2 focus:ring-[#F07835]/50 transition-colors"
                   />
                 </div>
 
@@ -294,8 +374,9 @@ export const ContactSection: React.FC = () => {
                       <button
                         key={opt}
                         type="button"
+                        aria-pressed={formData.service === opt}
                         onClick={() => setFormData({ ...formData, service: opt })}
-                        className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all ${
+                        className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer ${
                           formData.service === opt
                             ? 'bg-[#F07835] text-white shadow-md'
                             : 'bg-[#24272B] text-[#A5A5A5] hover:text-[#F5F1EB] border border-white/5 hover:border-white/20'
@@ -310,11 +391,12 @@ export const ContactSection: React.FC = () => {
                 {/* Project Details */}
                 <div>
                   <label htmlFor="details" className="block text-xs font-semibold uppercase tracking-wider text-[#A5A5A5] mb-2">
-                    Project Details & Goals <span className="text-[#F07835]">*</span>
+                    Project Details & Goals <span className="text-[#F07835]" aria-hidden="true">*</span>
                   </label>
                   <textarea
                     id="details"
                     rows={4}
+                    required
                     value={formData.details}
                     onChange={(e) => {
                       setFormData({ ...formData, details: e.target.value });
@@ -322,33 +404,58 @@ export const ContactSection: React.FC = () => {
                     }}
                     placeholder="Tell us about what you want to build, your timeline, or any specific requirements..."
                     aria-invalid={!!errors.details}
+                    aria-describedby={errors.details ? 'details-error' : undefined}
                     className={`w-full bg-[#24272B]/80 border ${
                       errors.details ? 'border-red-500' : 'border-white/10 focus:border-[#F07835]'
-                    } rounded-xl px-4 py-3 text-[#F5F1EB] placeholder-white/20 text-sm focus:outline-none transition-colors resize-none`}
+                    } rounded-xl px-4 py-3 text-[#F5F1EB] placeholder-white/20 text-sm focus:outline-none focus:ring-2 focus:ring-[#F07835]/50 transition-colors resize-none`}
                   />
                   {errors.details && (
-                    <p className="text-red-400 text-xs mt-1.5 flex items-center gap-1">
+                    <p id="details-error" className="text-red-400 text-xs mt-1.5 flex items-center gap-1">
                       <AlertCircle size={12} /> {errors.details}
                     </p>
                   )}
                 </div>
 
+                {/* Transparent Notice about Delivery Method */}
+                <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/5 text-[11px] text-[#A5A5A5] leading-relaxed">
+                  {formEndpoint ? (
+                    <span>
+                      ✓ Configured endpoint active. Submitting will transmit your inquiry directly to our server.
+                    </span>
+                  ) : (
+                    <span>
+                      <strong className="text-[#FFAD76]">Delivery Note:</strong> Submitting will launch your default email client with your message pre-composed for <strong className="text-[#F5F1EB]">sharprootstudio@gmail.com</strong>. You must press <em>Send</em> in your email app to deliver the inquiry.
+                    </span>
+                  )}
+                </div>
+
                 {/* Submit Action */}
-                <div className="pt-2">
+                <div className="pt-1">
                   <Button
                     type="submit"
                     variant="primary"
                     size="lg"
-                    icon={<Send size={18} />}
+                    disabled={status === 'submitting'}
+                    icon={status === 'submitting' ? <Loader2 size={18} className="animate-spin" /> : <Send size={18} />}
                     className="w-full text-base font-semibold shadow-[0_4px_25px_rgba(240,120,53,0.45)] hover:shadow-[0_6px_35px_rgba(240,120,53,0.65)]"
                   >
-                    Send Project Inquiry
+                    {status === 'submitting'
+                      ? 'Transmitting Inquiry...'
+                      : formEndpoint
+                      ? 'Submit Project Inquiry'
+                      : 'Prepare Inquiry in Email App'}
                   </Button>
                 </div>
 
-                {/* Integration Notice / Transparency Note */}
-                <p className="text-center text-[11px] text-[#A5A5A5]/70 pt-2">
-                  Submissions open directly in your mail application or route straight to <span className="text-[#F5F1EB]">sharprootstudio@gmail.com</span> with zero third-party data tracking.
+                {/* Direct Email Fallback Link */}
+                <p className="text-center text-xs text-[#A5A5A5] pt-1">
+                  Prefer direct email?{' '}
+                  <a
+                    href="mailto:sharprootstudio@gmail.com"
+                    className="text-[#F5F1EB] hover:text-[#F07835] font-semibold underline underline-offset-4 decoration-[#F07835]/40"
+                  >
+                    sharprootstudio@gmail.com
+                  </a>
                 </p>
               </form>
 

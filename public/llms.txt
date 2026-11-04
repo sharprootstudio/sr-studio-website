@@ -2,42 +2,38 @@
 
 > Turning Vision Into Value.
 
-SR STUDIO is a premier international creative technology and digital services agency. We combine bespoke visual design, high-performance web engineering, and intelligent AI automation to transform forward-thinking businesses and build lasting digital authority.
+SR STUDIO is a modern digital agency helping businesses transform ideas into meaningful digital solutions. We combine bespoke visual design, high-performance web engineering, and practical AI automation to support business growth and digital presence.
 
 ## Core Capabilities & Services
 
 1. **Website Development**
-   - High-performance web applications built on modern stacks (React, Next.js, Vite, Tailwind CSS).
-   - Core Web Vitals optimization, responsive editorial layouts, and sub-second load times.
-   - Fluid page transitions, micro-interactions, and accessible WCAG AAA compliance.
+   - Modern, responsive websites designed to build credibility, elevate digital presence, and convert visitors.
+   - Built on modern stacks (React, Vite, Next.js, Tailwind CSS) with sub-second page loads.
+   - Fluid micro-interactions, robust technical SEO, and accessible WCAG standards.
 
-2. **Branding & Creative Design**
-   - Comprehensive brand identities, typography guidelines, and design systems.
-   - Bespoke logo suites, 3D asset generation, and editorial storytelling.
-   - Visual collateral, pitch decks, and brand style guides.
+2. **AI Solutions & Automation**
+   - Practical AI-powered workflows, intelligent agents, and business process automation.
+   - Automated data pipelines and CRM synchronization eliminating repetitive manual entry.
+   - Custom LLM integration for inquiry triaging, document processing, and task automation.
 
-3. **AI Solutions & Automation**
-   - Workflow automation pipelines, CRM integrations, and business process streamlining.
-   - LLM integration, custom agentic workflows, and predictive analytics.
-   - Autonomous task completion systems tailored to operational efficiency.
+3. **Branding & Creative Design**
+   - Distinctive brand identities, visual systems, and creative assets that command attention.
+   - Comprehensive multi-tier design systems with cohesive color tokens, typography scales, and component specs.
+   - Digital collateral, stationery, pitch decks, and scalable vector logo suites.
 
-4. **AI Calling Agents**
-   - Human-sounding, conversational voice AI agents for 24/7 inbound and outbound customer communication.
-   - Real-time appointment booking, lead qualification, and customer support escalation.
-   - Multilingual voice synthesis and seamless CRM sync.
-
-5. **Digital Experiences**
-   - Immersive 3D interactive web experiences, WebGL/Three.js visualizations, and creative landing pages.
-   - Conversion-rate-optimized (CRO) user journeys designed for maximum engagement.
+4. **Digital Growth Solutions**
+   - Digital experiences and technology-driven solutions that support long-term business growth.
+   - User journey mapping, cognitive ergonomics, and conversion rate optimization (CRO).
+   - Data-driven technical enhancements and continuous performance optimization.
 
 ## Brand Values
-- **Creative Thinking**: Rejecting templated uniformity in favor of intentional, distinctive art direction.
-- **Smart Technology**: Engineering scalable, secure, and modern digital foundations.
-- **Purpose-Driven Design**: Crafting experiences that deliver measurable business growth and high conversion.
-- **Growth-Focused Solutions**: Designing long-term value and competitive differentiation for our partners.
+- **Creative-First Approach**: Rejecting templated uniformity in favor of intentional, distinctive art direction.
+- **Practical AI Integration**: High-utility automation focused on eliminating operational friction.
+- **Modern Technology**: Engineering fast, scalable, and secure digital foundations.
+- **User-Focused Design**: Accessible, ergonomic layouts optimized for real visitor psychology.
+- **Tailored to Business Needs**: Bespoke scope crafted around actual commercial objectives.
 
 ## Contact & Inquiries
-- **Website**: https://sharprootstudio.github.io
+- **Website**: https://sr-studio-website-gdt8lya7w-sharprootstudio.vercel.app/
 - **Inquiries**: sharprootstudio@gmail.com
-- **Services Availability**: Global / Remote
-
+- **Services Availability**: Remote / Worldwide

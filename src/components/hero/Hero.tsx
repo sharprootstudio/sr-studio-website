@@ -23,7 +23,7 @@ export const Hero: React.FC = () => {
     },
     {
       icon: <Cpu size={22} className="text-[#F07835]" />,
-      title: 'AI Automation & Agents',
+      title: 'AI Automation',
       tagline: 'Work Smarter. Not Harder.',
       action: () => scrollTo('#services'),
     },
