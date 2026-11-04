@@ -1,36 +1,38 @@
 import React from 'react';
-import { Compass, Cpu, Target, TrendingUp, ShieldCheck, Zap } from 'lucide-react';
+import { Palette, Cpu, Layers, Users, Sliders, CheckCircle2 } from 'lucide-react';
 import { Badge } from '../common/Badge';
 
 export const WhyUsSection: React.FC = () => {
-  const values = [
+  const strengths = [
     {
-      icon: <Compass size={28} className="text-[#F07835]" />,
-      title: 'Creative Thinking',
-      description: 'We avoid generic clichés. Every design decision, interaction, and visual element is custom-sculpted around your distinct market identity.',
-      metric: '100% Bespoke',
-      metricLabel: 'Never boilerplate'
+      icon: <Palette size={26} className="text-[#F07835]" />,
+      title: 'Creative-First Approach',
+      description: 'Every project begins with intentional art direction and distinctive visual identity tailored to your brand, deliberately avoiding cookie-cutter templates.',
+      pill: 'Authentic Design'
     },
     {
-      icon: <Cpu size={28} className="text-[#F07835]" />,
-      title: 'Smart Technology',
-      description: 'Built on high-performance modern stacks with sub-second speeds, automated LLM agents, and clean scalable architectures.',
-      metric: '< 400ms',
-      metricLabel: 'Voice AI Latency'
+      icon: <Cpu size={26} className="text-[#F07835]" />,
+      title: 'Practical AI Integration',
+      description: 'We focus on realistic, high-utility AI applications — automated data pipelines, smart task routing, and intelligent workflows that simplify daily operations.',
+      pill: 'Useful Automation'
     },
     {
-      icon: <Target size={28} className="text-[#F07835]" />,
-      title: 'Purpose-Driven Design',
-      description: 'Aesthetic elegance paired with behavioral psychology. We optimize user pathways so your visitors effortlessly convert into active clients.',
-      metric: '99+',
-      metricLabel: 'Core Web Vitals'
+      icon: <Layers size={26} className="text-[#F07835]" />,
+      title: 'Modern Technology',
+      description: 'Engineered with modern frameworks (React, TypeScript, Tailwind CSS) for sub-second page loads, clean codebases, and maintainable architectures.',
+      pill: 'Reliable Stacks'
     },
     {
-      icon: <TrendingUp size={28} className="text-[#F07835]" />,
-      title: 'Growth-Focused Solutions',
-      description: 'From organic search engine dominance to 24/7 autonomous client voice capture, we deliver systems engineered to compound business value.',
-      metric: '24 / 7',
-      metricLabel: 'Client Engagement'
+      icon: <Users size={26} className="text-[#F07835]" />,
+      title: 'User-Focused Design',
+      description: 'Clear typographic hierarchy, intuitive responsive layouts, and frictionless conversion pathways built with user empathy and accessibility at the core.',
+      pill: 'Ergonomic UX'
+    },
+    {
+      icon: <Sliders size={26} className="text-[#F07835]" />,
+      title: 'Tailored to Business Needs',
+      description: 'No bloated features or forced packages. Every design decision and technical implementation is aligned directly with your actual commercial objectives.',
+      pill: 'Bespoke Scope'
     }
   ];
 
@@ -41,60 +43,56 @@ export const WhyUsSection: React.FC = () => {
         {/* Top Header */}
         <div className="max-w-3xl mb-16 sm:mb-20">
           <Badge variant="orange" size="sm" className="mb-4">
-            The SR Studio Advantage
+            Why SR Studio
           </Badge>
           <h2 className="text-3xl sm:text-5xl lg:text-6xl font-display font-extrabold text-[#F5F1EB] tracking-tight leading-[1.15] mb-6">
             Creativity Meets <br />
             <span className="text-orange-gradient">Technology.</span>
           </h2>
           <p className="text-base sm:text-lg text-[#A5A5A5] leading-relaxed">
-            Most agencies force you to choose between visual beauty and technical muscle. We unify both into a cohesive, high-performance digital engine.
+            We bridge the gap between creative visual artistry and dependable technology, delivering thoughtful digital solutions built around real business needs.
           </p>
         </div>
 
-        {/* Asymmetrical Value Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-          {values.map((val, idx) => (
-            <div
-              key={val.title}
-              className="bg-[#24272B]/70 backdrop-blur-md border border-white/10 rounded-3xl p-8 sm:p-10 flex flex-col justify-between hover:border-[#F07835]/40 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 group relative overflow-hidden"
-            >
-              <div className="absolute top-0 right-0 p-8 text-6xl font-display font-black text-white/[0.03] select-none pointer-events-none">
-                0{idx + 1}
-              </div>
-
-              <div>
-                <div className="w-14 h-14 rounded-2xl bg-[#17191C] border border-white/10 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:border-[#F07835]/40 transition-all duration-300 shadow-md">
-                  {val.icon}
-                </div>
-
-                <h3 className="text-2xl font-display font-bold text-[#F5F1EB] mb-3 group-hover:text-white transition-colors">
-                  {val.title}
-                </h3>
-                <p className="text-[#A5A5A5] text-sm sm:text-base leading-relaxed mb-8">
-                  {val.description}
-                </p>
-              </div>
-
-              <div className="pt-6 border-t border-white/10 flex items-baseline justify-between">
+        {/* Strength Cards Bento Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          {strengths.map((item, idx) => {
+            const isWide = idx === 0 || idx === 1;
+            return (
+              <div
+                key={item.title}
+                className={`bg-[#24272B]/70 backdrop-blur-md border border-white/10 rounded-3xl p-8 sm:p-9 flex flex-col justify-between hover:border-[#F07835]/40 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 group relative overflow-hidden ${
+                  isWide ? 'lg:col-span-1' : ''
+                }`}
+              >
                 <div>
-                  <div className="text-2xl sm:text-3xl font-display font-extrabold text-[#F07835]">
-                    {val.metric}
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="w-13 h-13 rounded-2xl bg-[#17191C] border border-white/10 flex items-center justify-center group-hover:scale-105 group-hover:border-[#F07835]/50 transition-all duration-300 shadow-md">
+                      {item.icon}
+                    </div>
+                    <span className="text-[11px] font-semibold uppercase tracking-wider text-[#FFAD76] bg-[#17191C]/80 px-3 py-1 rounded-full border border-white/5">
+                      {item.pill}
+                    </span>
                   </div>
-                  <div className="text-xs text-[#A5A5A5] uppercase tracking-wider mt-0.5">
-                    {val.metricLabel}
-                  </div>
+
+                  <h3 className="text-xl sm:text-2xl font-display font-bold text-[#F5F1EB] mb-3 group-hover:text-white transition-colors">
+                    {item.title}
+                  </h3>
+                  <p className="text-[#A5A5A5] text-sm sm:text-base leading-relaxed">
+                    {item.description}
+                  </p>
                 </div>
-                <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-[#A5A5A5] group-hover:text-[#F07835] group-hover:bg-[#F07835]/10 transition-colors">
-                  <Zap size={15} />
+
+                <div className="pt-6 mt-6 border-t border-white/5 flex items-center gap-2 text-xs text-[#A5A5A5]">
+                  <CheckCircle2 size={15} className="text-[#F07835]" />
+                  <span>SR Studio Standard</span>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
       </div>
     </section>
   );
 };
-

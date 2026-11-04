@@ -101,3 +101,4 @@ Designed for instant zero-configuration deployment to [Vercel](https://vercel.co
 ## 📄 License & Attribution
 
 Copyright © 2026 SR STUDIO (Sharp Root Studio). All Rights Reserved.
+

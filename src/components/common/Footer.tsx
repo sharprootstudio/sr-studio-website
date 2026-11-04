@@ -8,19 +8,18 @@ export const Footer: React.FC = () => {
 
   const navLinks = [
     { label: 'Home', href: '#home' },
-    { label: 'About', href: '#about' },
     { label: 'Services', href: '#services' },
-    { label: 'Our Work', href: '#work' },
+    { label: 'Work', href: '#work' },
+    { label: 'About', href: '#about' },
     { label: 'Process', href: '#process' },
     { label: 'Contact', href: '#contact' },
   ];
 
   const serviceLinks = [
     { label: 'Website Development', href: '#services' },
-    { label: 'Branding & Creative Design', href: '#services' },
     { label: 'AI Solutions & Automation', href: '#services' },
-    { label: 'AI Calling Agents', href: '#services' },
-    { label: 'Digital Experiences', href: '#services' },
+    { label: 'Branding & Creative Design', href: '#services' },
+    { label: 'Digital Growth Solutions', href: '#services' },
   ];
 
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -45,11 +44,11 @@ export const Footer: React.FC = () => {
               onClick={(e) => handleLinkClick(e, '#home')}
               className="flex items-center gap-3.5 group inline-flex"
             >
-              <div className="h-12 w-12 rounded-xl overflow-hidden bg-[#17191C] border border-[#F07835]/40 p-1 shadow-md transition-transform duration-300 group-hover:scale-105 group-hover:border-[#F07835] flex items-center justify-center flex-shrink-0">
+              <div className="h-12 w-12 flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105">
                 <img
-                  src="/logo.png"
+                  src="/logo-clean.png"
                   alt="SR Studio Official Logo"
-                  className="h-full w-full object-contain filter drop-shadow-[0_2px_6px_rgba(240,120,53,0.4)]"
+                  className="h-full w-full object-contain filter drop-shadow-[0_2px_10px_rgba(240,120,53,0.45)]"
                 />
               </div>
               <div className="flex flex-col">

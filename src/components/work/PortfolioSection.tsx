@@ -21,9 +21,9 @@ export const PortfolioSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         <SectionHeading
-          badge="Our Work"
+          badge="Featured Work"
           title="Ideas Into Experiences."
-          subtitle="Explore demonstration projects highlighting our architectural range across responsive websites, brand identities, voice AI, and interactive 3D."
+          subtitle="Explore concept projects demonstrating our technical and visual capabilities across modern websites, brand systems, and AI workflows."
         />
 
         {/* Category Filter Pills */}
@@ -64,8 +64,8 @@ export const PortfolioSection: React.FC = () => {
 
                 {/* Demonstration Badge */}
                 <div className="absolute top-4 left-4">
-                  <span className="bg-black/70 backdrop-blur-md border border-white/10 text-[10px] font-semibold uppercase tracking-wider text-[#FFAD76] px-2.5 py-1 rounded-full">
-                    Demonstration Concept
+                  <span className="bg-black/75 backdrop-blur-md border border-white/10 text-[10px] font-semibold uppercase tracking-wider text-[#FFAD76] px-2.5 py-1 rounded-full">
+                    Concept Project
                   </span>
                 </div>
 

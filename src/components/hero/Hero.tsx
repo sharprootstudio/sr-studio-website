@@ -32,33 +32,36 @@ export const Hero: React.FC = () => {
   return (
     <section
       id="home"
-      className="relative min-h-screen pt-28 pb-12 sm:pt-36 sm:pb-16 lg:pt-36 lg:pb-16 flex flex-col justify-between overflow-hidden bg-[#0C0D10]"
+      className="relative min-h-[100svh] min-h-screen pt-28 pb-10 sm:pt-36 sm:pb-14 lg:pt-32 lg:pb-12 flex flex-col justify-between overflow-hidden bg-[#0C0D10]"
     >
       {/* =========================================================================
           HERO BACKGROUND: Full-Bleed 3D Metallic Ribbon Visual Artwork
-          Directly matching the reference art direction (media_1793788982318_8452ac44)
+          Spanning 100% full viewport width and 100% height (100svh minimum)
           ========================================================================= */}
-      <div className="absolute inset-0 pointer-events-none select-none overflow-hidden z-0">
-        {/* 3D Ribbon Image positioned seamlessly on the right half */}
-        <img
-          src="/hero-ribbon.jpg"
-          alt="SR Studio 3D Dynamic Ribbon Artwork"
-          className="absolute right-0 top-0 sm:top-1/2 sm:-translate-y-1/2 w-full lg:w-[62%] xl:w-[58%] 2xl:w-[52%] h-full object-cover object-[75%_center] lg:object-right opacity-50 sm:opacity-85 lg:opacity-100 transition-opacity duration-700"
-          loading="eager"
-        />
+      <div className="absolute inset-0 pointer-events-none select-none overflow-hidden z-0 w-full h-full">
+        {/* Full-Cover 3D Ribbon Backdrop with hardware-accelerated subtle float */}
+        <div className="relative w-full h-full animate-hero-float">
+          <img
+            src="/hero-ribbon.jpg"
+            alt="SR Studio 3D Dynamic Metallic Ribbon Artwork"
+            className="w-full h-full object-cover object-[84%_center] sm:object-[76%_center] lg:object-[68%_center] xl:object-[64%_center]"
+            loading="eager"
+            fetchPriority="high"
+          />
+        </div>
 
-        {/* Left Dark Vignette: Ensures 100% text contrast & pure dark canvas on the left */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0C0D10] via-[#0C0D10]/95 sm:via-[#0C0D10]/80 md:via-[#0C0D10]/60 to-transparent w-full lg:w-[60%]" />
+        {/* Subtle Dark Gradient Overlay: Ensures 100% typography contrast on the left */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0C0D10]/95 via-[#0C0D10]/85 sm:via-[#0C0D10]/65 to-transparent w-full md:w-[70%] lg:w-[55%]" />
 
         {/* Top Vignette: Seamless blend under the floating navbar */}
-        <div className="absolute top-0 left-0 right-0 h-28 sm:h-36 bg-gradient-to-b from-[#0C0D10] via-[#0C0D10]/80 to-transparent" />
+        <div className="absolute top-0 left-0 right-0 h-28 sm:h-36 bg-gradient-to-b from-[#0C0D10]/90 via-[#0C0D10]/50 to-transparent" />
 
         {/* Bottom Vignette: Blends into the bottom pillars strip */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 sm:h-44 bg-gradient-to-t from-[#0C0D10] via-[#0C0D10]/90 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-28 sm:h-40 bg-gradient-to-t from-[#0C0D10] via-[#0C0D10]/70 to-transparent" />
 
         {/* Ambient Warm Orange Atmospheric Glow */}
         <div
-          className="absolute top-1/4 right-1/4 w-[400px] lg:w-[650px] h-[400px] lg:h-[650px] bg-radial from-[#F07835]/20 via-[#F07835]/5 to-transparent blur-3xl rounded-full"
+          className="absolute top-1/4 right-1/4 w-[400px] lg:w-[650px] h-[400px] lg:h-[650px] bg-radial from-[#F07835]/15 via-transparent to-transparent blur-3xl rounded-full"
           aria-hidden="true"
         />
       </div>
@@ -72,25 +75,25 @@ export const Hero: React.FC = () => {
           {/* Left Hero Column: Typography & CTAs */}
           <div className="lg:col-span-7 xl:col-span-7 flex flex-col items-start text-left">
             
-            {/* Pill Tag */}
+            {/* Introductory Pill Tag */}
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#17191C]/90 border border-[#F07835]/40 mb-6 shadow-sm backdrop-blur-md">
               <span className="w-2 h-2 rounded-full bg-[#F07835] animate-pulse" />
               <span className="text-[11px] font-semibold uppercase tracking-widest text-[#FFAD76]">
-                TURNING VISION INTO VALUE
+                CREATIVE DIGITAL AGENCY
               </span>
             </div>
 
-            {/* Main Headline */}
-            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl font-display font-extrabold tracking-tight text-[#F5F1EB] leading-[1.06] mb-6">
-              Turning Vision. <br />
+            {/* Main Heading */}
+            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl font-display font-extrabold tracking-tight text-[#F5F1EB] leading-[1.05] mb-6">
+              Turning Vision <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F07835] via-[#FF8C42] to-[#FFAD76]">
                 Into Value.
               </span>
             </h1>
 
-            {/* Supporting Paragraph */}
+            {/* Supporting Description */}
             <p className="text-base sm:text-xl text-[#A5A5A5] leading-relaxed max-w-xl mb-8 font-normal">
-              We transform ideas into meaningful digital experiences through creative design, smart technology, and innovative digital solutions.
+              We combine creativity, technology, and AI to build digital experiences that help businesses grow.
             </p>
 
             {/* Action Buttons */}
@@ -99,18 +102,18 @@ export const Hero: React.FC = () => {
                 variant="primary"
                 size="lg"
                 icon={<ArrowRight size={18} />}
-                onClick={() => scrollTo('#work')}
+                onClick={() => scrollTo('#contact')}
                 className="w-full sm:w-auto text-base font-semibold shadow-[0_4px_25px_rgba(240,120,53,0.45)] hover:shadow-[0_6px_35px_rgba(240,120,53,0.65)]"
               >
-                Explore Our Work
+                Let's Build Something
               </Button>
               <Button
                 variant="secondary"
                 size="lg"
-                onClick={() => scrollTo('#contact')}
+                onClick={() => scrollTo('#work')}
                 className="w-full sm:w-auto text-base bg-[#17191C]/80 border-white/10 hover:border-white/25 hover:bg-[#24272B]"
               >
-                Let's Build Something
+                Explore Our Work
               </Button>
             </div>
 
@@ -128,8 +131,8 @@ export const Hero: React.FC = () => {
 
           </div>
 
-          {/* Right Hero Column: Clear space letting the 3D Ribbon background breathe on desktop */}
-          <div className="hidden lg:flex lg:col-span-5 xl:col-span-5 items-center justify-end relative pointer-events-none min-h-[380px]">
+          {/* Right Hero Column: Clear space letting the full-bleed 3D Artwork breathe */}
+          <div className="hidden lg:flex lg:col-span-5 xl:col-span-5 items-center justify-end relative pointer-events-none min-h-[360px]">
             {/* Ambient indicator badge floating gently on desktop */}
             <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#121316]/80 backdrop-blur-md border border-white/10 shadow-2xl self-end mb-4">
               <span className="w-2 h-2 rounded-full bg-[#F07835] animate-ping" />

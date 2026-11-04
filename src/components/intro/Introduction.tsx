@@ -18,14 +18,14 @@ export const Introduction: React.FC = () => {
         {/* Top Header */}
         <div className="flex flex-col items-center text-center max-w-4xl mx-auto mb-16 sm:mb-20">
           <Badge variant="orange" size="sm" className="mb-4">
-            Our Philosophy
+            About SR Studio
           </Badge>
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-display font-extrabold text-[#F5F1EB] tracking-tight leading-[1.15] mb-8">
-            More Than Just a <br />
-            <span className="text-orange-gradient">Digital Agency.</span>
+          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-display font-extrabold text-[#F5F1EB] tracking-tight leading-[1.15] mb-6">
+            Ideas Deserve <br />
+            <span className="text-orange-gradient">Better Execution.</span>
           </h2>
-          <p className="text-lg sm:text-2xl text-[#F5F1EB]/90 leading-relaxed font-light">
-            “At SR Studio, we believe every great idea deserves a powerful digital presence. We combine creativity, technology, and strategic thinking to help businesses build, grow, and stand out in the digital world.”
+          <p className="text-lg sm:text-xl text-[#F5F1EB]/90 leading-relaxed font-light max-w-3xl">
+            At SR Studio, we bring creativity, technology, and AI together to turn ideas into meaningful digital solutions. Our focus is on creating experiences that are practical, thoughtful, and built around real business needs.
           </p>
         </div>
 
@@ -38,10 +38,10 @@ export const Introduction: React.FC = () => {
               <Lightbulb size={24} />
             </div>
             <h3 className="text-xl font-display font-bold text-[#F5F1EB] mb-3">
-              Vision Into Execution
+              Practical Thinking
             </h3>
             <p className="text-[#A5A5A5] text-sm leading-relaxed">
-              We don't deal in vague concepts or uninspired templates. We translate abstract business visions into tangible, measurable digital experiences that engage customers.
+              We design and engineer digital solutions grounded in real operational objectives, eliminating unnecessary complexity while maximizing user clarity.
             </p>
           </div>
 
@@ -51,10 +51,10 @@ export const Introduction: React.FC = () => {
               <Layers size={24} />
             </div>
             <h3 className="text-xl font-display font-bold text-[#F5F1EB] mb-3">
-              Creative & Tech Fusion
+              Design & Tech Fusion
             </h3>
             <p className="text-[#A5A5A5] text-sm leading-relaxed">
-              Modern engineering is only as strong as the design behind it. We build systems that unify high-end visual elegance with resilient, secure, and modern architectures.
+              Modern technology is only as impactful as the design behind it. We combine refined aesthetics with clean, high-performance web engineering.
             </p>
           </div>
 
@@ -64,10 +64,10 @@ export const Introduction: React.FC = () => {
               <Rocket size={24} />
             </div>
             <h3 className="text-xl font-display font-bold text-[#F5F1EB] mb-3">
-              Long-Term Value
+              Sustainable Growth
             </h3>
             <p className="text-[#A5A5A5] text-sm leading-relaxed">
-              True digital value compounds over time. From organic search presence to autonomous voice AI support, we build infrastructure that scales alongside your ambitions.
+              True digital presence builds long-term value. We deliver reliable architectures, automated workflows, and digital flagships built to last.
             </p>
           </div>
 

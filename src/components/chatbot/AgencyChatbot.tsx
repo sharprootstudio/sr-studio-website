@@ -20,12 +20,12 @@ export const AgencyChatbot: React.FC = () => {
     {
       id: 'welcome',
       sender: 'bot',
-      text: "Hello! Welcome to SR STUDIO (Sharp Root Studio). I'm your AI assistant. How can I help you today? Feel free to ask about our web development, AI calling agents, branding, or project timelines.",
+      text: "Hello! Welcome to SR STUDIO (Sharp Root Studio). I'm your digital studio assistant. How can I help you today? Feel free to ask about our web development, AI automation, branding systems, or how to get started.",
       timestamp: 'Just now',
       quickActions: [
         { label: '🌐 Web Development', action: () => handleSendPreset('Tell me about your Website Development services') },
-        { label: '📞 AI Calling Agents', action: () => handleSendPreset('How do your AI Calling Agents work?') },
         { label: '⚙️ AI Automation', action: () => handleSendPreset('What AI solutions and automation do you build?') },
+        { label: '🎨 Branding & Design', action: () => handleSendPreset('Tell me about your Branding & Creative Design') },
         { label: '🚀 Start a Project', action: () => handleSendPreset('How do I start a project with SR Studio?') },
       ],
     },

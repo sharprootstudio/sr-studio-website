@@ -37,20 +37,16 @@ export const ServicesSection: React.FC = () => {
         <SectionHeading
           badge="Our Capabilities"
           title="What We Create."
-          subtitle="Engineered for high impact. We design, build, and deploy premium digital systems that elevate your brand and automate operational growth."
+          subtitle="Engineered for high impact. We design, build, and deploy premium digital systems that elevate your brand and support business growth."
         />
 
-        {/* Services Grid: 5 Cards with Asymmetric Featured First Card */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        {/* Services Grid: 4 Core Services in Balanced 2x2 Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
           {servicesData.map((service, index) => {
-            const isFeatured = index === 0;
-
             return (
               <div
                 key={service.id}
-                className={`bg-[#24272B]/75 backdrop-blur-md border border-white/10 rounded-3xl p-8 flex flex-col justify-between transition-all duration-300 hover:border-[#F07835]/50 hover:shadow-2xl hover:shadow-black/60 group relative overflow-hidden ${
-                  isFeatured ? 'md:col-span-2 lg:col-span-1 border-t-2 border-t-[#F07835]' : ''
-                }`}
+                className="bg-[#24272B]/75 backdrop-blur-md border border-white/10 rounded-3xl p-8 sm:p-10 flex flex-col justify-between transition-all duration-300 hover:border-[#F07835]/50 hover:shadow-2xl hover:shadow-black/60 group relative overflow-hidden"
               >
                 {/* Decorative Subtle Background Corner Light */}
                 <div className="absolute -top-16 -right-16 w-36 h-36 bg-[#F07835]/10 rounded-full blur-2xl group-hover:bg-[#F07835]/25 transition-colors pointer-events-none" />
