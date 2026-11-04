@@ -1,0 +1,43 @@
+# SR STUDIO (Sharp Root Studio)
+
+> Turning Vision Into Value.
+
+SR STUDIO is a premier international creative technology and digital services agency. We combine bespoke visual design, high-performance web engineering, and intelligent AI automation to transform forward-thinking businesses and build lasting digital authority.
+
+## Core Capabilities & Services
+
+1. **Website Development**
+   - High-performance web applications built on modern stacks (React, Next.js, Vite, Tailwind CSS).
+   - Core Web Vitals optimization, responsive editorial layouts, and sub-second load times.
+   - Fluid page transitions, micro-interactions, and accessible WCAG AAA compliance.
+
+2. **Branding & Creative Design**
+   - Comprehensive brand identities, typography guidelines, and design systems.
+   - Bespoke logo suites, 3D asset generation, and editorial storytelling.
+   - Visual collateral, pitch decks, and brand style guides.
+
+3. **AI Solutions & Automation**
+   - Workflow automation pipelines, CRM integrations, and business process streamlining.
+   - LLM integration, custom agentic workflows, and predictive analytics.
+   - Autonomous task completion systems tailored to operational efficiency.
+
+4. **AI Calling Agents**
+   - Human-sounding, conversational voice AI agents for 24/7 inbound and outbound customer communication.
+   - Real-time appointment booking, lead qualification, and customer support escalation.
+   - Multilingual voice synthesis and seamless CRM sync.
+
+5. **Digital Experiences**
+   - Immersive 3D interactive web experiences, WebGL/Three.js visualizations, and creative landing pages.
+   - Conversion-rate-optimized (CRO) user journeys designed for maximum engagement.
+
+## Brand Values
+- **Creative Thinking**: Rejecting templated uniformity in favor of intentional, distinctive art direction.
+- **Smart Technology**: Engineering scalable, secure, and modern digital foundations.
+- **Purpose-Driven Design**: Crafting experiences that deliver measurable business growth and high conversion.
+- **Growth-Focused Solutions**: Designing long-term value and competitive differentiation for our partners.
+
+## Contact & Inquiries
+- **Website**: https://sharprootstudio.github.io
+- **Inquiries**: sharprootstudio@gmail.com
+- **Services Availability**: Global / Remote
+

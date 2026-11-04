@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #17191C;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2E3339;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #F07835;
+}
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+  background-color: #17191C;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  background-color: #17191C;
+  color: #F5F1EB;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, .font-display {
+  font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+  letter-spacing: -0.03em;
+}
+
+/* Glassmorphism utility */
+.glass-panel {
+  background: rgba(36, 39, 43, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.glass-panel-hover {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-panel-hover:hover {
+  background: rgba(45, 49, 54, 0.85);
+  border-color: rgba(240, 120, 53, 0.35);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6), 0 0 25px -5px rgba(240, 120, 53, 0.2);
+}
+
+/* Subtle dot grid pattern */
+.bg-grid-pattern {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
+/* Metallic gradient text */
+.text-metallic {
+  background: linear-gradient(135deg, #F5F1EB 20%, #A5A5A5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-orange-gradient {
+  background: linear-gradient(135deg, #FFAD76 0%, #F07835 50%, #D45B18 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Orange border glow */
+.border-glow-orange {
+  border: 1px solid rgba(240, 120, 53, 0.3);
+  box-shadow: 0 0 20px rgba(240, 120, 53, 0.15);
+}
+
