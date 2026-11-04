@@ -17,7 +17,11 @@ export const PortfolioSection: React.FC = () => {
     : portfolioData.filter((p) => p.category === activeCategory);
 
   return (
-    <section id="work" className="relative py-24 sm:py-32 bg-[#0C0D10] overflow-hidden border-t border-white/5">
+    <section id="work" className="relative py-28 sm:py-36 bg-[#0C0D10] overflow-hidden border-t border-white/[0.08]">
+      {/* Background Agent Valley Grid & Center Light Glow */}
+      <div className="absolute inset-0 bg-agent-grid pointer-events-none opacity-60" />
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-[#F07835]/06 rounded-full blur-[140px] pointer-events-none" />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         <SectionHeading
@@ -26,78 +30,86 @@ export const PortfolioSection: React.FC = () => {
           subtitle="Explore concept projects demonstrating our technical and visual capabilities across modern websites, brand systems, and AI workflows."
         />
 
-        {/* Category Filter Pills */}
-        <div className="flex flex-wrap items-center justify-center gap-2 mb-12 sm:mb-16">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={`px-5 py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 cursor-pointer ${
-                activeCategory === cat
-                  ? 'bg-[#F07835] text-white shadow-[0_2px_15px_rgba(240,120,53,0.35)]'
-                  : 'bg-[#24272B] text-[#A5A5A5] hover:text-[#F5F1EB] hover:bg-[#2E3339] border border-white/5'
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
+        {/* Category Filter Pills: Segmented Tray */}
+        <div className="flex justify-center mb-12 sm:mb-16">
+          <div className="inline-flex flex-wrap items-center justify-center gap-1.5 p-1.5 rounded-full bg-[#141619]/90 border border-white/10 backdrop-blur-md shadow-xl">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={`px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 cursor-pointer ${
+                  activeCategory === cat
+                    ? 'bg-[#F07835] text-white shadow-[0_2px_18px_rgba(240,120,53,0.45)]'
+                    : 'text-[#A5A5A5] hover:text-[#F5F1EB] hover:bg-white/5'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
         </div>
 
-        {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Projects Grid: Elevated Bento Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {filteredProjects.map((project) => (
             <div
               key={project.id}
-              className="bg-[#24272B]/75 backdrop-blur-md border border-white/10 rounded-3xl overflow-hidden flex flex-col justify-between transition-all duration-300 hover:border-[#F07835]/50 hover:shadow-2xl hover:shadow-black/70 group"
+              className="premium-card rounded-2xl sm:rounded-3xl overflow-hidden flex flex-col justify-between group relative"
             >
               {/* Image Preview Container */}
               <div className="relative aspect-[16/10] overflow-hidden bg-[#17191C]">
                 <img
                   src={project.imageUrl}
                   alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                   loading="lazy"
                 />
                 
-                {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#24272B] via-transparent to-transparent opacity-90" />
+                {/* Dark Vignette Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#141619] via-[#141619]/30 to-transparent" />
 
-                {/* Demonstration Badge */}
-                <div className="absolute top-4 left-4">
-                  <span className="bg-black/75 backdrop-blur-md border border-white/10 text-[10px] font-semibold uppercase tracking-wider text-[#FFAD76] px-2.5 py-1 rounded-full">
+                {/* Top Left: Concept Badge */}
+                <div className="absolute top-3.5 left-3.5">
+                  <span className="inline-flex items-center gap-1.5 bg-black/80 backdrop-blur-md border border-white/10 text-[10px] font-semibold uppercase tracking-wider text-[#FFAD76] px-2.5 py-1 rounded-full">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#F07835] animate-pulse" />
                     Concept Project
                   </span>
                 </div>
 
-                {/* Category Pill */}
-                <div className="absolute top-4 right-4">
-                  <span className="bg-[#17191C]/80 backdrop-blur-md text-xs font-medium text-[#F5F1EB] px-3 py-1 rounded-full border border-white/10">
+                {/* Top Right: Category Tag */}
+                <div className="absolute top-3.5 right-3.5">
+                  <span className="bg-black/80 backdrop-blur-md text-[11px] font-mono text-[#F5F1EB] px-2.5 py-1 rounded-full border border-white/10">
                     {project.category}
                   </span>
+                </div>
+
+                {/* Bottom Right Floating Action Indicator */}
+                <div className="absolute bottom-3 right-3 w-9 h-9 rounded-full bg-[#17191C]/90 border border-white/10 flex items-center justify-center text-[#F5F1EB] group-hover:border-[#F07835] group-hover:text-[#F07835] group-hover:bg-[#F07835]/15 transition-all duration-300">
+                  <ArrowUpRight size={16} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </div>
               </div>
 
               {/* Card Body */}
-              <div className="p-6 sm:p-8 flex flex-col flex-grow justify-between">
+              <div className="p-6 sm:p-7 flex flex-col flex-grow justify-between">
                 <div>
-                  <h3 className="text-xl sm:text-2xl font-display font-bold text-[#F5F1EB] group-hover:text-white transition-colors mb-2">
+                  <h3 className="text-xl sm:text-2xl font-display font-bold text-[#F5F1EB] group-hover:text-white transition-colors mb-1.5">
                     {project.title}
                   </h3>
-                  <div className="text-xs font-medium text-[#FFAD76] mb-3">
+                  <div className="text-xs font-semibold text-[#FFAD76] uppercase tracking-wider mb-3">
                     {project.tagline}
                   </div>
-                  <p className="text-[#A5A5A5] text-xs sm:text-sm leading-relaxed mb-6 line-clamp-3">
+                  <p className="text-[#A5A5A5] text-xs sm:text-sm leading-relaxed mb-6 line-clamp-3 font-normal">
                     {project.description}
                   </p>
                 </div>
 
                 <div>
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-1.5 mb-6">
+                  {/* Technology Tags */}
+                  <div className="flex flex-wrap gap-1.5 mb-5">
                     {project.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="bg-[#17191C] text-[#A5A5A5] text-[11px] px-2.5 py-0.5 rounded-full border border-white/5"
+                        className="bg-[#17191C] text-[#A5A5A5] text-[11px] font-mono px-2.5 py-0.5 rounded-md border border-white/5"
                       >
                         {tag}
                       </span>
@@ -107,9 +119,9 @@ export const PortfolioSection: React.FC = () => {
                   {/* View Details CTA */}
                   <button
                     onClick={() => setSelectedProject(project)}
-                    className="w-full py-2.5 px-4 rounded-xl bg-white/5 hover:bg-[#F07835]/15 hover:text-[#FFAD76] border border-white/10 hover:border-[#F07835]/30 text-xs sm:text-sm font-semibold text-[#F5F1EB] transition-all flex items-center justify-center gap-2 cursor-pointer"
+                    className="w-full py-2.5 px-4 rounded-xl bg-white/5 hover:bg-[#F07835]/15 hover:text-[#FFAD76] border border-white/10 hover:border-[#F07835]/40 text-xs sm:text-sm font-semibold text-[#F5F1EB] transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer"
                   >
-                    <span>View Case Details</span>
+                    <span>View Architecture & Specs</span>
                     <ArrowUpRight size={15} />
                   </button>
                 </div>

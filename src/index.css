@@ -89,6 +89,34 @@ h1, h2, h3, .font-display {
   box-shadow: 0 0 20px rgba(240, 120, 53, 0.15);
 }
 
+/* Agent Valley Inspired Visual Upgrades */
+.bg-agent-grid {
+  background-image: 
+    linear-gradient(rgba(240, 120, 53, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(240, 120, 53, 0.035) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.premium-card {
+  background: rgba(20, 22, 25, 0.75);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.premium-card:hover {
+  background: rgba(28, 31, 35, 0.9);
+  border-color: rgba(240, 120, 53, 0.4);
+  transform: translateY(-3px);
+  box-shadow: 0 18px 45px -12px rgba(0, 0, 0, 0.75), 0 0 25px -4px rgba(240, 120, 53, 0.18);
+}
+
+.timeline-glow-track {
+  background: linear-gradient(to bottom, #F07835, rgba(240, 120, 53, 0.25));
+  box-shadow: 0 0 12px rgba(240, 120, 53, 0.6);
+}
+
 /* =========================================================================
    CINEMATIC 3D HERO ANIMATION SYSTEM
    Hardware accelerated (translate3d/scale/opacity only), 60fps, Zero reflow

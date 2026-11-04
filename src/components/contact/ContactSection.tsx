@@ -122,82 +122,100 @@ export const ContactSection: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="relative py-24 sm:py-32 bg-[#0F1012] overflow-hidden border-t border-white/5">
-      {/* Background orange glow */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[700px] h-[500px] bg-[#F07835]/10 rounded-full blur-3xl pointer-events-none" />
+    <section id="contact" className="relative py-28 sm:py-36 bg-[#0C0D10] overflow-hidden border-t border-white/[0.08]">
+      {/* Background Agent Valley Grid & Center Light Glow */}
+      <div className="absolute inset-0 bg-agent-grid pointer-events-none opacity-60" />
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-[#F07835]/08 rounded-full blur-[150px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           
-          {/* Left Column: Direct Agency Contact Info */}
+          {/* Left Column: Direct Agency Contact Info & Status */}
           <div className="lg:col-span-5">
             <Badge variant="orange" size="sm" className="mb-4">
               Get In Touch
             </Badge>
 
-            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-display font-extrabold text-[#F5F1EB] tracking-tight leading-[1.15] mb-6">
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-display font-extrabold text-[#F5F1EB] tracking-tight leading-[1.15] mb-5">
               Have an Idea? <br />
               <span className="text-orange-gradient">Let's Make It Happen.</span>
             </h2>
 
-            <p className="text-base sm:text-lg text-[#A5A5A5] leading-relaxed mb-10">
+            {/* Live Studio Availability Indicator (Agent Valley Inspired) */}
+            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-[#141619] border border-[#F07835]/30 text-xs font-mono text-[#FFAD76] mb-6 shadow-sm">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span>ACCEPTING SELECT PROJECTS · Q2/Q3 2026</span>
+            </div>
+
+            <p className="text-base sm:text-lg text-[#A5A5A5] leading-relaxed mb-8 font-normal">
               Tell us what you're planning. Let's explore how we can turn your vision into something valuable through creative design, modern web engineering, and practical AI.
             </p>
 
-            <div className="space-y-6">
-              {/* Direct Email Card */}
-              <a
-                href="mailto:sharprootstudio@gmail.com"
-                className="flex items-start gap-4 p-5 rounded-2xl bg-[#17191C]/80 border border-white/10 hover:border-[#F07835]/50 transition-all duration-300 group shadow-md"
-              >
-                <div className="w-12 h-12 rounded-xl bg-[#F07835]/15 border border-[#F07835]/30 flex items-center justify-center text-[#F07835] flex-shrink-0 group-hover:scale-110 transition-transform">
-                  <Mail size={22} />
-                </div>
-                <div>
-                  <span className="text-xs font-semibold uppercase tracking-wider text-[#FFAD76] block mb-1">
-                    Direct Email
-                  </span>
-                  <span className="text-base font-semibold text-[#F5F1EB] group-hover:text-[#F07835] transition-colors break-all">
-                    sharprootstudio@gmail.com
-                  </span>
-                  <p className="text-xs text-[#A5A5A5] mt-1">
-                    Direct agency communication • Typically responds within 24 business hours
-                  </p>
-                </div>
-              </a>
+            <div className="space-y-4">
+              {/* Direct Email Card with One-Click Copy */}
+              <div className="premium-card rounded-2xl p-5 flex items-start justify-between gap-4 group">
+                <a
+                  href="mailto:sharprootstudio@gmail.com"
+                  className="flex items-start gap-4 flex-grow min-w-0"
+                >
+                  <div className="w-12 h-12 rounded-xl bg-[#F07835]/15 border border-[#F07835]/30 flex items-center justify-center text-[#F07835] flex-shrink-0 group-hover:scale-105 group-hover:border-[#F07835]/50 transition-all duration-300">
+                    <Mail size={22} />
+                  </div>
+                  <div className="min-w-0">
+                    <span className="text-[11px] font-mono uppercase tracking-wider text-[#FFAD76] block mb-1">
+                      Direct Email
+                    </span>
+                    <span className="text-sm sm:text-base font-semibold text-[#F5F1EB] group-hover:text-[#F07835] transition-colors break-all">
+                      sharprootstudio@gmail.com
+                    </span>
+                    <p className="text-xs text-[#A5A5A5] mt-1 font-normal">
+                      Typically responds within 24 business hours
+                    </p>
+                  </div>
+                </a>
+
+                <button
+                  type="button"
+                  onClick={copyDetailsToClipboard}
+                  title="Copy email address"
+                  className="p-2.5 rounded-xl bg-[#17191C] border border-white/10 hover:border-[#F07835]/50 text-[#A5A5A5] hover:text-[#FFAD76] transition-colors flex-shrink-0 cursor-pointer self-center"
+                >
+                  {copied ? <Check size={16} className="text-green-400" /> : <Copy size={16} />}
+                </button>
+              </div>
 
               {/* Working Schedule */}
-              <div className="flex items-start gap-4 p-5 rounded-2xl bg-[#17191C]/80 border border-white/10 shadow-md">
-                <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-[#FFAD76] flex-shrink-0">
+              <div className="premium-card rounded-2xl p-5 flex items-start gap-4">
+                <div className="w-12 h-12 rounded-xl bg-[#17191C] border border-white/10 flex items-center justify-center text-[#FFAD76] flex-shrink-0">
                   <Clock size={22} />
                 </div>
                 <div>
-                  <span className="text-xs font-semibold uppercase tracking-wider text-[#FFAD76] block mb-1">
+                  <span className="text-[11px] font-mono uppercase tracking-wider text-[#FFAD76] block mb-1">
                     Working Schedule
                   </span>
-                  <span className="text-base font-semibold text-[#F5F1EB]">
+                  <span className="text-sm sm:text-base font-semibold text-[#F5F1EB]">
                     Monday – Friday, Remote / Global
                   </span>
-                  <p className="text-xs text-[#A5A5A5] mt-1">
+                  <p className="text-xs text-[#A5A5A5] mt-1 font-normal">
                     Partnering with clients across multiple time zones
                   </p>
                 </div>
               </div>
 
-              {/* Location Card */}
-              <div className="flex items-start gap-4 p-5 rounded-2xl bg-[#17191C]/80 border border-white/10 shadow-md">
-                <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-[#FFAD76] flex-shrink-0">
+              {/* Studio Location */}
+              <div className="premium-card rounded-2xl p-5 flex items-start gap-4">
+                <div className="w-12 h-12 rounded-xl bg-[#17191C] border border-white/10 flex items-center justify-center text-[#FFAD76] flex-shrink-0">
                   <MapPin size={22} />
                 </div>
                 <div>
-                  <span className="text-xs font-semibold uppercase tracking-wider text-[#FFAD76] block mb-1">
+                  <span className="text-[11px] font-mono uppercase tracking-wider text-[#FFAD76] block mb-1">
                     Studio Location
                   </span>
-                  <span className="text-base font-semibold text-[#F5F1EB]">
+                  <span className="text-sm sm:text-base font-semibold text-[#F5F1EB]">
                     Remote Studio • Operating Globally
                   </span>
-                  <p className="text-xs text-[#A5A5A5] mt-1">
+                  <p className="text-xs text-[#A5A5A5] mt-1 font-normal">
                     Sharp Root Studio (SR STUDIO)
                   </p>
                 </div>
@@ -207,7 +225,9 @@ export const ContactSection: React.FC = () => {
 
           {/* Right Column: Project Inquiry Form */}
           <div className="lg:col-span-7">
-            <div className="bg-[#17191C]/90 backdrop-blur-xl border border-white/10 rounded-3xl p-8 sm:p-10 shadow-2xl relative">
+            <div className="premium-card rounded-2xl sm:rounded-3xl p-8 sm:p-10 shadow-2xl relative overflow-hidden">
+              {/* Top Specular Glow Line */}
+              <div className="absolute top-0 inset-x-10 h-[1px] bg-gradient-to-r from-transparent via-[#F07835]/50 to-transparent" />
               
               {/* STATE 1: API SUCCESS (Only if a real endpoint was called and succeeded) */}
               {status === 'api_success' && (
@@ -310,9 +330,9 @@ export const ContactSection: React.FC = () => {
                       placeholder="e.g. Alex Morgan"
                       aria-invalid={!!errors.name}
                       aria-describedby={errors.name ? 'name-error' : undefined}
-                      className={`w-full bg-[#24272B]/80 border ${
-                        errors.name ? 'border-red-500' : 'border-white/10 focus:border-[#F07835]'
-                      } rounded-xl px-4 py-3 text-[#F5F1EB] placeholder-white/20 text-sm focus:outline-none focus:ring-2 focus:ring-[#F07835]/50 transition-colors`}
+                      className={`w-full bg-[#121417] border ${
+                        errors.name ? 'border-red-500' : 'border-white/[0.09] focus:border-[#F07835]'
+                      } rounded-xl px-4 py-3 text-[#F5F1EB] placeholder-white/25 text-sm focus:outline-none focus:ring-1 focus:ring-[#F07835]/50 transition-colors`}
                     />
                     {errors.name && (
                       <p id="name-error" className="text-red-400 text-xs mt-1.5 flex items-center gap-1">
@@ -337,9 +357,9 @@ export const ContactSection: React.FC = () => {
                       placeholder="alex@company.com"
                       aria-invalid={!!errors.email}
                       aria-describedby={errors.email ? 'email-error' : undefined}
-                      className={`w-full bg-[#24272B]/80 border ${
-                        errors.email ? 'border-red-500' : 'border-white/10 focus:border-[#F07835]'
-                      } rounded-xl px-4 py-3 text-[#F5F1EB] placeholder-white/20 text-sm focus:outline-none focus:ring-2 focus:ring-[#F07835]/50 transition-colors`}
+                      className={`w-full bg-[#121417] border ${
+                        errors.email ? 'border-red-500' : 'border-white/[0.09] focus:border-[#F07835]'
+                      } rounded-xl px-4 py-3 text-[#F5F1EB] placeholder-white/25 text-sm focus:outline-none focus:ring-1 focus:ring-[#F07835]/50 transition-colors`}
                     />
                     {errors.email && (
                       <p id="email-error" className="text-red-400 text-xs mt-1.5 flex items-center gap-1">
@@ -360,7 +380,7 @@ export const ContactSection: React.FC = () => {
                     value={formData.company}
                     onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                     placeholder="e.g. Acme Innovations"
-                    className="w-full bg-[#24272B]/80 border border-white/10 focus:border-[#F07835] rounded-xl px-4 py-3 text-[#F5F1EB] placeholder-white/20 text-sm focus:outline-none focus:ring-2 focus:ring-[#F07835]/50 transition-colors"
+                    className="w-full bg-[#121417] border border-white/[0.09] focus:border-[#F07835] rounded-xl px-4 py-3 text-[#F5F1EB] placeholder-white/25 text-sm focus:outline-none focus:ring-1 focus:ring-[#F07835]/50 transition-colors"
                   />
                 </div>
 
@@ -376,10 +396,10 @@ export const ContactSection: React.FC = () => {
                         type="button"
                         aria-pressed={formData.service === opt}
                         onClick={() => setFormData({ ...formData, service: opt })}
-                        className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer ${
+                        className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-200 cursor-pointer ${
                           formData.service === opt
-                            ? 'bg-[#F07835] text-white shadow-md'
-                            : 'bg-[#24272B] text-[#A5A5A5] hover:text-[#F5F1EB] border border-white/5 hover:border-white/20'
+                            ? 'bg-[#F07835] text-white shadow-[0_2px_14px_rgba(240,120,53,0.4)]'
+                            : 'bg-[#121417] text-[#A5A5A5] hover:text-[#F5F1EB] border border-white/[0.08] hover:border-white/20'
                         }`}
                       >
                         {opt}
@@ -405,9 +425,9 @@ export const ContactSection: React.FC = () => {
                     placeholder="Tell us about what you want to build, your timeline, or any specific requirements..."
                     aria-invalid={!!errors.details}
                     aria-describedby={errors.details ? 'details-error' : undefined}
-                    className={`w-full bg-[#24272B]/80 border ${
-                      errors.details ? 'border-red-500' : 'border-white/10 focus:border-[#F07835]'
-                    } rounded-xl px-4 py-3 text-[#F5F1EB] placeholder-white/20 text-sm focus:outline-none focus:ring-2 focus:ring-[#F07835]/50 transition-colors resize-none`}
+                    className={`w-full bg-[#121417] border ${
+                      errors.details ? 'border-red-500' : 'border-white/[0.09] focus:border-[#F07835]'
+                    } rounded-xl px-4 py-3 text-[#F5F1EB] placeholder-white/25 text-sm focus:outline-none focus:ring-1 focus:ring-[#F07835]/50 transition-colors resize-none`}
                   />
                   {errors.details && (
                     <p id="details-error" className="text-red-400 text-xs mt-1.5 flex items-center gap-1">

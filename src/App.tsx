@@ -16,27 +16,25 @@ export const App: React.FC = () => {
       {/* Top Navbar */}
       <Navbar />
 
-      {/* Main Content Sections */}
+      {/* Main Content Sections: Exact Render Order */}
       <main className="flex-grow">
-        {/* Section 1 & 2: Clean, High-Impact Hero with Neural Constellation */}
+        {/* 1. HOME */}
         <Hero />
 
-        {/* Section 3: Introduction */}
-        <Introduction />
-
-        {/* Section 4: Our Services */}
+        {/* 2. SERVICES */}
         <ServicesSection />
 
-        {/* Section 5: Why Choose SR Studio */}
-        <WhyUsSection />
-
-        {/* Section 6: Our Work / Portfolio */}
+        {/* 3. WORK */}
         <PortfolioSection />
 
-        {/* Section 7: Our Process */}
+        {/* 4. PROCESS */}
         <ProcessSection />
 
-        {/* Section 8: Contact & Inquiries */}
+        {/* 5. ABOUT */}
+        <Introduction />
+        <WhyUsSection />
+
+        {/* 6. CONTACT */}
         <ContactSection />
       </main>
 
