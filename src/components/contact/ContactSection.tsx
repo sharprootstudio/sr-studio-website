@@ -1,7 +1,16 @@
-import React, { useState } from 'react';
-import { Send, Mail, MapPin, Clock, CheckCircle2, AlertCircle, Copy, Check, ExternalLink, Loader2 } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Send, Mail, MapPin, Clock, CheckCircle2, AlertCircle, Copy, Check, ExternalLink, Loader2, ShieldCheck } from 'lucide-react';
 import { Badge } from '../common/Badge';
 import { Button } from '../common/Button';
+
+declare global {
+  interface Window {
+    turnstile?: {
+      render: (container: string | HTMLElement, options: Record<string, unknown>) => string;
+      reset: (widgetId: string) => void;
+    };
+  }
+}
 
 export const ContactSection: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -12,14 +21,77 @@ export const ContactSection: React.FC = () => {
     details: '',
   });
 
+  const [honeypot, setHoneypot] = useState('');
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [turnstileWidgetId, setTurnstileWidgetId] = useState<string | null>(null);
+  const turnstileContainerRef = useRef<HTMLDivElement>(null);
+
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<'idle' | 'submitting' | 'api_success' | 'mailto_opened' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
   const [copied, setCopied] = useState(false);
+  const [savedLeadId, setSavedLeadId] = useState<string | null>(null);
 
-  // Configurable external backend endpoint (e.g. Formspree, Web3Forms, or custom API route)
-  // Can be configured via .env variable VITE_CONTACT_FORM_ENDPOINT without hardcoding secrets
-  const formEndpoint = (import.meta.env.VITE_CONTACT_FORM_ENDPOINT as string | undefined)?.trim();
+  // Endpoint detection: Prioritize dedicated edge function endpoint, then Supabase URL, then legacy override
+  const edgeEndpoint = (import.meta.env.VITE_LEAD_SUBMISSION_ENDPOINT as string | undefined)?.trim();
+  const supabaseUrl = (import.meta.env.VITE_SUPABASE_URL as string | undefined)?.trim();
+  const legacyEndpoint = (import.meta.env.VITE_CONTACT_FORM_ENDPOINT as string | undefined)?.trim();
+  const turnstileSiteKey = (import.meta.env.VITE_TURNSTILE_SITE_KEY as string | undefined)?.trim();
+
+  const activeSubmissionEndpoint = edgeEndpoint || (
+    supabaseUrl && !supabaseUrl.includes('placeholder') && !supabaseUrl.includes('your-project')
+      ? `${supabaseUrl}/functions/v1/submit-lead`
+      : legacyEndpoint
+  );
+
+  // Cloudflare Turnstile integration (when site key is configured)
+  useEffect(() => {
+    if (!turnstileSiteKey || !turnstileContainerRef.current) return;
+
+    let isMounted = true;
+
+    const renderWidget = () => {
+      if (window.turnstile && turnstileContainerRef.current && isMounted) {
+        try {
+          const id = window.turnstile.render(turnstileContainerRef.current, {
+            sitekey: turnstileSiteKey,
+            theme: 'dark',
+            callback: (token: string) => {
+              if (isMounted) setTurnstileToken(token);
+            },
+            'error-callback': () => {
+              if (isMounted) setTurnstileToken(null);
+            },
+            'expired-callback': () => {
+              if (isMounted) setTurnstileToken(null);
+            },
+          });
+          setTurnstileWidgetId(id);
+        } catch (e) {
+          console.warn('[Turnstile] Render error:', e);
+        }
+      }
+    };
+
+    if (window.turnstile) {
+      renderWidget();
+    } else {
+      const existingScript = document.getElementById('cf-turnstile-script');
+      if (!existingScript) {
+        const script = document.createElement('script');
+        script.id = 'cf-turnstile-script';
+        script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+        script.async = true;
+        script.defer = true;
+        script.onload = renderWidget;
+        document.head.appendChild(script);
+      }
+    }
+
+    return () => {
+      isMounted = false;
+    };
+  }, [turnstileSiteKey]);
 
   const serviceOptions = [
     'Website Development',
@@ -31,15 +103,41 @@ export const ContactSection: React.FC = () => {
 
   const validate = () => {
     const errs: Record<string, string> = {};
-    if (!formData.name.trim()) errs.name = 'Please provide your full name.';
-    if (!formData.email.trim()) {
+    const trimmedName = formData.name.trim();
+    const trimmedEmail = formData.email.trim();
+    const trimmedDetails = formData.details.trim();
+    const trimmedCompany = formData.company.trim();
+
+    if (!trimmedName) {
+      errs.name = 'Please provide your full name.';
+    } else if (trimmedName.length < 2 || trimmedName.length > 100) {
+      errs.name = 'Full name must be between 2 and 100 characters.';
+    }
+
+    if (!trimmedEmail) {
       errs.email = 'Please provide your email address.';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      errs.email = 'Please provide a valid email address.';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedEmail)) {
+      errs.email = 'Please provide a valid email address (e.g. name@company.com).';
+    } else if (trimmedEmail.length > 150) {
+      errs.email = 'Email address is too long (maximum 150 characters).';
     }
-    if (!formData.details.trim()) {
+
+    if (trimmedCompany && trimmedCompany.length > 100) {
+      errs.company = 'Company name cannot exceed 100 characters.';
+    }
+
+    if (!trimmedDetails) {
       errs.details = 'Please briefly describe your project goals or requirements.';
+    } else if (trimmedDetails.length < 5) {
+      errs.details = 'Please provide a bit more detail (at least 5 characters).';
+    } else if (trimmedDetails.length > 3000) {
+      errs.details = 'Project details are too long (maximum 3000 characters).';
     }
+
+    if (turnstileSiteKey && !turnstileToken) {
+      errs.turnstile = 'Please complete the verification check before submitting.';
+    }
+
     return errs;
   };
 
@@ -74,37 +172,64 @@ export const ContactSection: React.FC = () => {
 
     setErrors({});
 
-    // If an external form endpoint is configured, submit via POST
-    if (formEndpoint) {
+    // If an external backend or Supabase Edge endpoint is configured, submit via POST
+    if (activeSubmissionEndpoint) {
       setStatus('submitting');
+      setErrorMessage('');
+
+      // Generate a unique idempotency key for this submission attempt
+      const idempotencyKey = typeof crypto !== 'undefined' && crypto.randomUUID 
+        ? crypto.randomUUID() 
+        : `${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
+
       try {
-        const response = await fetch(formEndpoint, {
+        const response = await fetch(activeSubmissionEndpoint, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
           },
           body: JSON.stringify({
-            ...formData,
-            _subject: `New Project Inquiry: ${formData.name} (${formData.service})`,
-            submittedAt: new Date().toISOString(),
+            name: formData.name.trim(),
+            email: formData.email.trim().toLowerCase(),
+            company: formData.company.trim() || undefined,
+            service: formData.service,
+            details: formData.details.trim(),
+            honeypot: honeypot || undefined,
+            turnstile_token: turnstileToken || undefined,
+            idempotency_key: idempotencyKey,
           }),
         });
 
-        if (response.ok) {
+        const resData = await response.json().catch(() => ({}));
+
+        if (response.ok && resData.success) {
           setStatus('api_success');
+          setSavedLeadId(resData.leadId || null);
+          // Reset form fields
+          setFormData({
+            name: '',
+            email: '',
+            company: '',
+            service: 'Website Development',
+            details: '',
+          });
+          setHoneypot('');
+          setTurnstileToken(null);
+          if (turnstileWidgetId && window.turnstile) {
+            window.turnstile.reset(turnstileWidgetId);
+          }
         } else {
-          const resData = await response.json().catch(() => ({}));
-          throw new Error(resData.message || 'Submission failed. Please send via email client.');
+          throw new Error(resData.error || resData.message || 'Submission failed. Please try sending via your email client.');
         }
       } catch (err) {
-        setErrorMessage(err instanceof Error ? err.message : 'Network error while contacting form endpoint.');
+        setErrorMessage(err instanceof Error ? err.message : 'Network error communicating with submission server.');
         setStatus('error');
       }
       return;
     }
 
-    // Default: No backend configured -> Open mail client transparently
+    // Default: No backend configured -> Open mail client transparently with user confirmation
     handleOpenMailClient();
   };
 
@@ -229,20 +354,26 @@ export const ContactSection: React.FC = () => {
               {/* Top Specular Glow Line */}
               <div className="absolute top-0 inset-x-10 h-[1px] bg-gradient-to-r from-transparent via-[#F07835]/50 to-transparent" />
               
-              {/* STATE 1: API SUCCESS (Only if a real endpoint was called and succeeded) */}
+              {/* STATE 1: API SUCCESS (Only when lead is verified saved in database) */}
               {status === 'api_success' && (
-                <div className="mb-8 p-6 rounded-2xl bg-green-500/15 border border-green-500/40 text-[#F5F1EB] animate-fadeIn">
+                <div className="mb-8 p-6 rounded-2xl bg-emerald-500/15 border border-emerald-500/40 text-[#F5F1EB] animate-fadeIn">
                   <div className="flex items-center gap-3 mb-2">
-                    <CheckCircle2 size={24} className="text-green-400 flex-shrink-0" />
+                    <CheckCircle2 size={24} className="text-emerald-400 flex-shrink-0" />
                     <h3 className="font-display font-bold text-lg text-white">
-                      Inquiry Received Successfully
+                      Inquiry Received & Durably Saved
                     </h3>
                   </div>
-                  <p className="text-sm text-[#A5A5A5] mb-2">
-                    Thank you, <strong className="text-white">{formData.name}</strong>. Your project details have been received by our studio.
+                  <p className="text-sm text-[#A5A5A5] mb-2 leading-relaxed">
+                    Thank you for reaching out to SR STUDIO. Your inquiry has been encrypted and recorded directly into our project pipeline.
                   </p>
+                  {savedLeadId && (
+                    <div className="inline-flex items-center gap-2 text-xs font-mono text-[#FFAD76] bg-black/40 px-3 py-1 rounded-md border border-white/5 mb-3">
+                      <span>Ref ID:</span>
+                      <span>{savedLeadId.substring(0, 13)}...</span>
+                    </div>
+                  )}
                   <p className="text-xs text-[#A5A5A5]">
-                    We will review your inquiry and follow up at <strong className="text-[#FFAD76]">{formData.email}</strong> within 24 business hours.
+                    Our team reviews submissions continuously. You will receive direct correspondence within 24 business hours.
                   </p>
                 </div>
               )}
@@ -436,11 +567,40 @@ export const ContactSection: React.FC = () => {
                   )}
                 </div>
 
+                {/* Anti-Abuse Honeypot (Hidden from human sight and assistive tech) */}
+                <div className="hidden" aria-hidden="true" style={{ display: 'none' }}>
+                  <label htmlFor="website_url_hp">Leave this field blank</label>
+                  <input
+                    type="text"
+                    id="website_url_hp"
+                    name="website_url_hp"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={honeypot}
+                    onChange={(e) => setHoneypot(e.target.value)}
+                  />
+                </div>
+
+                {/* Cloudflare Turnstile Verification Widget (when configured) */}
+                {turnstileSiteKey && (
+                  <div className="pt-2">
+                    <div ref={turnstileContainerRef} className="flex justify-center" />
+                    {errors.turnstile && (
+                      <p className="text-red-400 text-xs mt-1.5 text-center flex items-center justify-center gap-1">
+                        <AlertCircle size={12} /> {errors.turnstile}
+                      </p>
+                    )}
+                  </div>
+                )}
+
                 {/* Transparent Notice about Delivery Method */}
                 <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/5 text-[11px] text-[#A5A5A5] leading-relaxed">
-                  {formEndpoint ? (
-                    <span>
-                      ✓ Configured endpoint active. Submitting will transmit your inquiry directly to our server.
+                  {activeSubmissionEndpoint ? (
+                    <span className="flex items-start gap-2">
+                      <ShieldCheck size={14} className="text-[#F07835] flex-shrink-0 mt-0.5" />
+                      <span>
+                        <strong className="text-[#F5F1EB]">Verified Server Delivery:</strong> Submitting transmits your inquiry directly to SR Studio's secure lead pipeline with end-to-end receipt confirmation.
+                      </span>
                     </span>
                   ) : (
                     <span>
@@ -460,23 +620,28 @@ export const ContactSection: React.FC = () => {
                     className="w-full text-base font-semibold shadow-[0_4px_25px_rgba(240,120,53,0.45)] hover:shadow-[0_6px_35px_rgba(240,120,53,0.65)]"
                   >
                     {status === 'submitting'
-                      ? 'Transmitting Inquiry...'
-                      : formEndpoint
+                      ? 'Transmitting Securely...'
+                      : activeSubmissionEndpoint
                       ? 'Submit Project Inquiry'
                       : 'Prepare Inquiry in Email App'}
                   </Button>
                 </div>
 
-                {/* Direct Email Fallback Link */}
-                <p className="text-center text-xs text-[#A5A5A5] pt-1">
-                  Prefer direct email?{' '}
-                  <a
-                    href="mailto:sharprootstudio@gmail.com"
-                    className="text-[#F5F1EB] hover:text-[#F07835] font-semibold underline underline-offset-4 decoration-[#F07835]/40"
-                  >
-                    sharprootstudio@gmail.com
-                  </a>
-                </p>
+                {/* Privacy & Direct Contact Notice */}
+                <div className="space-y-2 pt-1 text-center">
+                  <p className="text-[11px] text-[#737373] leading-relaxed max-w-md mx-auto">
+                    We value your privacy. Your information is stored securely in our private workspace and used exclusively for direct project consultation.
+                  </p>
+                  <p className="text-xs text-[#A5A5A5]">
+                    Prefer direct email?{' '}
+                    <a
+                      href="mailto:sharprootstudio@gmail.com"
+                      className="text-[#F5F1EB] hover:text-[#F07835] font-semibold underline underline-offset-4 decoration-[#F07835]/40"
+                    >
+                      sharprootstudio@gmail.com
+                    </a>
+                  </p>
+                </div>
               </form>
 
             </div>

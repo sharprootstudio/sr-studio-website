@@ -84,7 +84,7 @@ export const Hero: React.FC = () => {
           ========================================================================= */}
       <div className="absolute inset-0 pointer-events-none select-none overflow-hidden z-0 w-full h-full">
         
-        {/* Layer 1: Ribbon Image with subtle parallax and continuous organic drift */}
+        {/* Layer 1: Ribbon Image with subtle parallax, organic drift & enhanced 3D contrast */}
         <div
           className="absolute inset-0 w-full h-full transition-transform duration-300 ease-out"
           style={{
@@ -95,12 +95,28 @@ export const Hero: React.FC = () => {
             <img
               src="/hero-ribbon.jpg"
               alt="SR Studio 3D Dynamic Metallic Ribbon Artwork"
-              className="w-full h-full object-cover object-[84%_center] sm:object-[76%_center] lg:object-[68%_center] xl:object-[64%_center] scale-105"
+              className="w-full h-full object-cover object-[84%_center] sm:object-[76%_center] lg:object-[68%_center] xl:object-[64%_center] scale-105 select-none pointer-events-none"
+              style={{
+                filter: 'contrast(1.10) saturate(1.16) brightness(1.03)',
+                backfaceVisibility: 'hidden',
+                WebkitBackfaceVisibility: 'hidden',
+              }}
               loading="eager"
               fetchPriority="high"
             />
           </div>
         </div>
+
+        {/* Dedicated Metallic Rim Backlight: Illuminates the orange 3D ribbon loop */}
+        <div
+          className="absolute top-[22%] right-[12%] sm:right-[18%] lg:right-[20%] w-[420px] lg:w-[640px] h-[360px] lg:h-[500px] rounded-full pointer-events-none z-[1]"
+          style={{
+            background: 'radial-gradient(ellipse 65% 55% at 50% 50%, rgba(240,120,53,0.18) 0%, rgba(212,91,24,0.06) 45%, transparent 75%)',
+            transform: 'translate3d(calc(var(--mouse-x, 0) * -14px), calc(var(--mouse-y, 0) * -10px), 0)',
+            filter: 'blur(50px)',
+          }}
+          aria-hidden="true"
+        />
 
         {/* Layer 2: Gentle Specular Orange Light Sweep Across the Ribbon */}
         <div
@@ -165,8 +181,8 @@ export const Hero: React.FC = () => {
           />
         </div>
 
-        {/* Subtle Dark Gradient Overlay: Ensures 100% typography contrast on the left */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0C0D10]/95 via-[#0C0D10]/80 sm:via-[#0C0D10]/60 to-transparent w-full md:w-[70%] lg:w-[55%] z-[4]" />
+        {/* Subtle Dark Gradient Overlay: Ensures 100% typography contrast on left while keeping ribbon vivid */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0C0D10] via-[#0C0D10]/85 to-transparent w-full md:w-[60%] lg:w-[48%] z-[4]" />
 
         {/* Top Vignette: Seamless blend under the floating navbar */}
         <div className="absolute top-0 left-0 right-0 h-24 sm:h-32 bg-gradient-to-b from-[#0C0D10]/90 via-[#0C0D10]/40 to-transparent z-[4]" />

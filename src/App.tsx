@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { Navbar } from './components/common/Navbar';
 import { Hero } from './components/hero/Hero';
 import { Introduction } from './components/intro/Introduction';
@@ -9,8 +9,46 @@ import { ProcessSection } from './components/process/ProcessSection';
 import { ContactSection } from './components/contact/ContactSection';
 import { Footer } from './components/common/Footer';
 import { AgencyChatbot } from './components/chatbot/AgencyChatbot';
+import { RefreshCw } from 'lucide-react';
+
+// Code-split the Admin Console so the public website bundle stays 100% lean
+const AdminApp = lazy(() => import('./admin/AdminApp'));
 
 export const App: React.FC = () => {
+  const [currentPath, setCurrentPath] = useState(() => 
+    typeof window !== 'undefined' ? window.location.pathname : '/'
+  );
+
+  useEffect(() => {
+    const handlePopState = () => {
+      setCurrentPath(window.location.pathname);
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  const isAdminRoute = currentPath.startsWith('/admin');
+
+  // If navigating to /admin, render the lazy-loaded secure admin portal
+  if (isAdminRoute) {
+    return (
+      <Suspense
+        fallback={
+          <div className="min-h-screen bg-[#0C0D10] text-[#F5F1EB] flex flex-col items-center justify-center p-4">
+            <RefreshCw size={28} className="text-[#F07835] animate-spin mb-3" />
+            <span className="text-xs font-mono uppercase tracking-widest text-[#FFAD76]">
+              Loading SR Studio Admin Console...
+            </span>
+          </div>
+        }
+      >
+        <AdminApp />
+      </Suspense>
+    );
+  }
+
+  // Otherwise, render the exact public landing page
   return (
     <div className="relative min-h-screen bg-[#0C0D10] text-[#F5F1EB] selection:bg-[#F07835] selection:text-white flex flex-col justify-between overflow-x-hidden">
       {/* Top Navbar */}

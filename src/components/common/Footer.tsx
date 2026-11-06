@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowUp, Github, Linkedin, Twitter, Instagram, Mail } from 'lucide-react';
+import { ArrowUp, Github, Linkedin, Twitter, Instagram, Mail, Lock } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   const scrollToTop = () => {
@@ -170,6 +170,14 @@ export const Footer: React.FC = () => {
           <div className="flex items-center gap-6">
             <span>Privacy Policy</span>
             <span>Terms of Service</span>
+            <a
+              href="/admin"
+              className="inline-flex items-center gap-1.5 text-[#5A5E66] hover:text-[#FFAD76] transition-colors duration-200"
+              title="Agency Staff & Owner Portal"
+            >
+              <Lock size={12} />
+              <span>Staff / Admin</span>
+            </a>
             <button
               onClick={scrollToTop}
               className="inline-flex items-center gap-1.5 text-[#A5A5A5] hover:text-[#F07835] transition-colors cursor-pointer"
