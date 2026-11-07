@@ -1,6 +1,7 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { Navbar } from './components/common/Navbar';
 import { Hero } from './components/hero/Hero';
+import { NeuralBackground } from './components/common/NeuralBackground';
 import { Introduction } from './components/intro/Introduction';
 import { ServicesSection } from './components/services/ServicesSection';
 import { WhyUsSection } from './components/why-us/WhyUsSection';
@@ -51,12 +52,17 @@ export const App: React.FC = () => {
   // Otherwise, render the exact public landing page
   return (
     <div className="relative min-h-screen bg-[#0C0D10] text-[#F5F1EB] selection:bg-[#F07835] selection:text-white flex flex-col justify-between overflow-x-hidden">
+      {/* 3D Animated Particle Network: Fixed across the entire viewport behind non-home content */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <NeuralBackground />
+      </div>
+
       {/* Top Navbar */}
       <Navbar />
 
       {/* Main Content Sections: Exact Render Order */}
-      <main className="flex-grow">
-        {/* 1. HOME */}
+      <main className="flex-grow relative z-10">
+        {/* 1. HOME — 100% untouched Hero section with original 3D ribbon */}
         <Hero />
 
         {/* 2. SERVICES */}

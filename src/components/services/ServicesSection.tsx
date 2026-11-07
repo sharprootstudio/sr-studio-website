@@ -27,7 +27,7 @@ export const ServicesSection: React.FC = () => {
   };
 
   return (
-    <section id="services" className="relative py-28 sm:py-36 bg-[#0C0D10] overflow-hidden border-t border-white/[0.08]">
+    <section id="services" className="relative py-28 sm:py-36 bg-transparent overflow-hidden border-t border-white/[0.08]">
       {/* Subtle Agent-Valley Inspired Geometric Grid & Atmospheric Glow */}
       <div className="absolute inset-0 bg-agent-grid pointer-events-none opacity-60" />
       <div className="absolute top-1/4 -left-40 w-[500px] h-[500px] bg-[#F07835]/08 rounded-full blur-[140px] pointer-events-none" />

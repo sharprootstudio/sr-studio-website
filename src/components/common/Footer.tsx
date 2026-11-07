@@ -31,7 +31,7 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="bg-[#0A0B0D] text-[#A5A5A5] pt-16 pb-12 border-t border-white/5 relative z-10">
+    <footer className="bg-[#0A0B0D]/85 backdrop-blur-md text-[#A5A5A5] pt-16 pb-12 border-t border-white/5 relative z-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Main Footer Content */}

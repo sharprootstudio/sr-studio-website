@@ -4,7 +4,7 @@ import { Badge } from '../common/Badge';
 
 export const Introduction: React.FC = () => {
   return (
-    <section id="about" className="relative py-28 sm:py-36 bg-[#0C0D10] overflow-hidden border-t border-white/[0.08]">
+    <section id="about" className="relative py-28 sm:py-36 bg-transparent overflow-hidden border-t border-white/[0.08]">
       {/* Background Agent Valley Grid & Center Light Glow */}
       <div className="absolute inset-0 bg-agent-grid pointer-events-none opacity-60" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-[#F07835]/06 rounded-full blur-[140px] pointer-events-none" />
@@ -18,7 +18,7 @@ export const Introduction: React.FC = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
+
         {/* Top Header */}
         <div className="flex flex-col items-center text-center max-w-4xl mx-auto mb-16 sm:mb-20">
           <Badge variant="orange" size="sm" className="mb-4">
@@ -35,11 +35,11 @@ export const Introduction: React.FC = () => {
 
         {/* 3-Column Editorial Grid: Agent Valley Inspired Modular Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-          
+
           {/* Card 1 */}
           <div className="premium-card rounded-2xl sm:rounded-3xl p-8 relative overflow-hidden group flex flex-col justify-between">
             <div className="absolute top-0 inset-x-6 h-[1px] bg-gradient-to-r from-transparent via-[#F07835]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            
+
             <div>
               <div className="flex items-center justify-between mb-6">
                 <div className="w-12 h-12 rounded-2xl bg-[#17191C] border border-white/10 flex items-center justify-center text-[#F07835] group-hover:scale-105 group-hover:border-[#F07835]/50 group-hover:shadow-[0_0_20px_rgba(240,120,53,0.3)] transition-all duration-300">
@@ -67,7 +67,7 @@ export const Introduction: React.FC = () => {
           {/* Card 2 */}
           <div className="premium-card rounded-2xl sm:rounded-3xl p-8 relative overflow-hidden group flex flex-col justify-between">
             <div className="absolute top-0 inset-x-6 h-[1px] bg-gradient-to-r from-transparent via-[#F07835]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            
+
             <div>
               <div className="flex items-center justify-between mb-6">
                 <div className="w-12 h-12 rounded-2xl bg-[#17191C] border border-white/10 flex items-center justify-center text-[#F07835] group-hover:scale-105 group-hover:border-[#F07835]/50 group-hover:shadow-[0_0_20px_rgba(240,120,53,0.3)] transition-all duration-300">
@@ -95,7 +95,7 @@ export const Introduction: React.FC = () => {
           {/* Card 3 */}
           <div className="premium-card rounded-2xl sm:rounded-3xl p-8 relative overflow-hidden group flex flex-col justify-between">
             <div className="absolute top-0 inset-x-6 h-[1px] bg-gradient-to-r from-transparent via-[#F07835]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            
+
             <div>
               <div className="flex items-center justify-between mb-6">
                 <div className="w-12 h-12 rounded-2xl bg-[#17191C] border border-white/10 flex items-center justify-center text-[#F07835] group-hover:scale-105 group-hover:border-[#F07835]/50 group-hover:shadow-[0_0_20px_rgba(240,120,53,0.3)] transition-all duration-300">

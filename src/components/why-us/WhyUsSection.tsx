@@ -37,13 +37,13 @@ export const WhyUsSection: React.FC = () => {
   ];
 
   return (
-    <section className="relative py-28 sm:py-36 bg-[#0C0D10] overflow-hidden border-t border-white/[0.08]">
+    <section className="relative py-28 sm:py-36 bg-transparent overflow-hidden border-t border-white/[0.08]">
       {/* Background Agent Valley Grid & Center Light Glow */}
       <div className="absolute inset-0 bg-agent-grid pointer-events-none opacity-60" />
       <div className="absolute top-1/3 right-1/4 w-[600px] h-[400px] bg-[#F07835]/06 rounded-full blur-[140px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
+
         {/* Top Header */}
         <div className="max-w-3xl mb-14 sm:mb-16">
           <Badge variant="orange" size="sm" className="mb-4">
@@ -103,7 +103,7 @@ export const WhyUsSection: React.FC = () => {
                 className="premium-card rounded-2xl sm:rounded-3xl p-8 sm:p-9 flex flex-col justify-between group relative overflow-hidden"
               >
                 <div className="absolute top-0 inset-x-8 h-[1px] bg-gradient-to-r from-transparent via-[#F07835]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                
+
                 <div>
                   <div className="flex items-center justify-between mb-6">
                     <div className="w-13 h-13 rounded-2xl bg-[#17191C] border border-white/10 flex items-center justify-center group-hover:scale-105 group-hover:border-[#F07835]/50 group-hover:shadow-[0_0_20px_rgba(240,120,53,0.25)] transition-all duration-300 shadow-md">

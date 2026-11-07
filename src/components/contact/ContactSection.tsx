@@ -247,7 +247,7 @@ export const ContactSection: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="relative py-28 sm:py-36 bg-[#0C0D10] overflow-hidden border-t border-white/[0.08]">
+    <section id="contact" className="relative py-28 sm:py-36 bg-transparent overflow-hidden border-t border-white/[0.08]">
       {/* Background Agent Valley Grid & Center Light Glow */}
       <div className="absolute inset-0 bg-agent-grid pointer-events-none opacity-60" />
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-[#F07835]/08 rounded-full blur-[150px] pointer-events-none" />

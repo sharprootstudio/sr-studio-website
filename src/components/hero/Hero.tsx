@@ -70,7 +70,7 @@ export const Hero: React.FC = () => {
     <section
       ref={heroRef}
       id="home"
-      className="relative min-h-[100svh] min-h-screen pt-20 pb-8 sm:pt-24 sm:pb-10 lg:pt-24 lg:pb-10 flex flex-col justify-between overflow-hidden bg-[#0C0D10]"
+      className="relative z-20 min-h-[100svh] min-h-screen pt-20 pb-8 sm:pt-24 sm:pb-10 lg:pt-24 lg:pb-10 flex flex-col justify-between overflow-hidden bg-[#0C0D10]"
     >
       {/* =========================================================================
           HERO BACKGROUND: Full-Bleed Animated 3D Metallic Ribbon Visual Artwork

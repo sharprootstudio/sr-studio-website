@@ -17,13 +17,13 @@ export const PortfolioSection: React.FC = () => {
     : portfolioData.filter((p) => p.category === activeCategory);
 
   return (
-    <section id="work" className="relative py-28 sm:py-36 bg-[#0C0D10] overflow-hidden border-t border-white/[0.08]">
+    <section id="work" className="relative py-28 sm:py-36 bg-transparent overflow-hidden border-t border-white/[0.08]">
       {/* Background Agent Valley Grid & Center Light Glow */}
       <div className="absolute inset-0 bg-agent-grid pointer-events-none opacity-60" />
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-[#F07835]/06 rounded-full blur-[140px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
+
         <SectionHeading
           badge="Featured Work"
           title="Ideas Into Experiences."
@@ -37,11 +37,10 @@ export const PortfolioSection: React.FC = () => {
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 cursor-pointer ${
-                  activeCategory === cat
+                className={`px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 cursor-pointer ${activeCategory === cat
                     ? 'bg-[#F07835] text-white shadow-[0_2px_18px_rgba(240,120,53,0.45)]'
                     : 'text-[#A5A5A5] hover:text-[#F5F1EB] hover:bg-white/5'
-                }`}
+                  }`}
               >
                 {cat}
               </button>
@@ -64,7 +63,7 @@ export const PortfolioSection: React.FC = () => {
                   className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                   loading="lazy"
                 />
-                
+
                 {/* Dark Vignette Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#141619] via-[#141619]/30 to-transparent" />
 
